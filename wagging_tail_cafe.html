@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Dining - Pet-Friendly Restaurant Guide</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB347', // 主色调：暖黄色
+                        'primary-light': '#FFE0B2',
+                        'primary-dark': '#FF9800',
+                        success: '#8BC34A',
+                        warning: '#FFA726',
+                        error: '#F44336',
+                        info: '#9E9E9E',
+                        dark: '#3E2723', // 温暖深棕色
+                        'dark-secondary': '#5D4037',
+                        'dark-tertiary': '#8D6E63',
+                        'dark-disabled': '#BCAAA4',
+                        light: '#FFF8F0', // 温暖米白色
+                        'light-secondary': '#FFF3E0',
+                        'border-light': '#EFEBE9',
+                        'border-disabled': '#BCAAA4'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            }
+            /* 卡片样式 */
+            .card-hover {
+                background-color: #FFFFFF;
+                border-radius: 12px;
+                padding: 16px;
+                transition: all 0.3s ease-in-out;
+                border: 1px solid #EFEBE9;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 20px rgba(255, 179, 71, 0.16);
+                border-color: #FFE0B2;
+            }
+            
+            /* 阴影样式 */
+            .nav-shadow {
+                box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);
+            }
+            
+            /* 阴影层级 */
+            .shadow-level-1 {
+                box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);
+            }
+            .shadow-level-2 {
+                box-shadow: 0 4px 20px rgba(255, 179, 71, 0.16);
+            }
+            .shadow-level-3 {
+                box-shadow: 0 8px 32px rgba(255, 179, 71, 0.2);
+            }
+            /* 主要按钮 */
+            .btn-primary {
+                background-color: #FFB347;
+                color: #3E2723;
+                border: none;
+                transition: all 0.3s ease-in-out;
+                border-radius: 8px;
+                height: 44px;
+                font-weight: 500;
+            }
+            .btn-primary:hover {
+                background-color: #FF9800;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 20px rgba(255, 152, 0, 0.2);
+            }
+            .btn-primary:active {
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+                transform: translateY(-1px);
+            }
+            .btn-primary:disabled {
+                background-color: #FFE0B2;
+                color: #BCAAA4;
+                transform: none;
+                box-shadow: none;
+                cursor: not-allowed;
+            }
+            
+            /* 次要按钮 */
+            .btn-secondary {
+                background-color: white;
+                color: #FFB347;
+                border: 2px solid #FFB347;
+                transition: all 0.3s ease-in-out;
+                border-radius: 8px;
+                height: 44px;
+                font-weight: 500;
+            }
+            .btn-secondary:hover {
+                background-color: #FFB347;
+                color: #3E2723;
+                transform: translateY(-2px);
+            }
+            .btn-secondary:active {
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+                transform: translateY(-1px);
+            }
+            
+            /* 文本按钮 */
+            .btn-text {
+                background-color: transparent;
+                color: #FFB347;
+                border: none;
+                transition: all 0.3s ease-in-out;
+                border-radius: 8px;
+                padding: 0.5rem 1rem;
+                font-weight: 500;
+            }
+            .btn-text:hover {
+                color: #FF9800;
+                background-color: rgba(255, 179, 71, 0.1);
+            }
+            
+            /* 按钮尺寸变体 */
+            .btn-large {
+                height: 52px;
+                padding: 0 1.5rem;
+                font-size: 1rem;
+            }
+            .btn-small {
+                height: 36px;
+                padding: 0 0.75rem;
+                font-size: 0.875rem;
+            }
+            .btn-feedback:active {
+                transform: scale(0.97);
+            }
+            
+            /* 输入框样式 */
+            .input-style {
+                background-color: #FFF8F0;
+                border: 1px solid #EFEBE9;
+                border-radius: 8px;
+                height: 40px;
+                padding: 0 1rem;
+                color: #3E2723;
+                transition: all 0.3s ease-in-out;
+            }
+            .input-style:focus {
+                outline: none;
+                border-color: #FFB347;
+                box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.2);
+                background-color: white;
+            }
+            .input-style::placeholder {
+                color: #BCAAA4;
+            }
+            .input-style:disabled {
+                background-color: #F5F5F5;
+                border-color: #E0E0E0;
+                color: #BCAAA4;
+                cursor: not-allowed;
+            }
+            .tag-accent {
+                background-color: #FFB347;
+                color: #3E2723;
+                padding: 2px 10px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 500;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light min-h-screen">
+        <!-- 统一容器类 -->
+        <style>
+            .container-main {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+            
+            /* 优化内容对齐 */
+            .content-section {
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);
+                transition: all 0.3s ease-in-out;
+            }
+            .content-section:hover {
+                box-shadow: 0 4px 20px rgba(255, 179, 71, 0.16);
+            }
+            
+            /* 优化搜索和筛选区域 */
+            .filter-search-section {
+                position: sticky;
+                top: 0;
+                background-color: white;
+                z-index: 40;
+                padding: 1rem 0;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);
+                transition: all 0.3s ease-in-out;
+            }
+            
+            /* 优化餐厅卡片布局 */
+            .restaurant-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                gap: 1.5rem;
+                margin-top: 1rem;
+            }
+            
+            /* 移动端优化 */
+            @media (max-width: 768px) {
+                /* 调整容器内边距 */
+                .container-main {
+                    padding: 0 0.75rem;
+                }
+                
+                /* 调整内容区域内边距 */
+                .content-section {
+                    padding: 1rem;
+                    margin-bottom: 1.5rem;
+                }
+                
+                /* 调整餐厅卡片布局 */
+                .restaurant-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                }
+                
+                /* 调整筛选按钮组 */
+                .filter-search-section .d-flex {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 1rem;
+                }
+                
+                /* 调整搜索框 */
+                .filter-search-section .relative {
+                    max-width: 100%;
+                }
+                
+                /* 调整按钮大小，优化触摸体验 */
+                button {
+                    min-height: 48px;
+                    touch-action: manipulation;
+                    -webkit-tap-highlight-color: transparent;
+                    transition: all 0.3s ease-in-out;
+                }
+                
+                /* 增加按钮内边距，方便移动端点击 */
+                .btn-primary,
+                .btn-secondary,
+                .btn-feedback {
+                    padding: 0.75rem 1.25rem;
+                    font-size: 1rem;
+                    transition: all 0.3s ease-in-out;
+                }
+                
+                /* 优化餐厅卡片在移动端的显示 */
+                .bg-white.rounded-xl {
+                    border-radius: 12px;
+                    box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);
+                    transition: all 0.3s ease-in-out;
+                }
+                .bg-white.rounded-xl:hover {
+                    box-shadow: 0 4px 20px rgba(255, 179, 71, 0.16);
+                }
+                
+                /* 调整图片高度 */
+                .relative.h-48 {
+                    height: 200px;
+                }
+            }
+            
+            /* 触摸反馈优化 */
+            * {
+                -webkit-tap-highlight-color: rgba(255, 179, 71, 0.15);
+                transition: all 0.3s ease-in-out;
+            }
+            
+            /* 增加点击目标大小 */
+            a,
+            button,
+            .clickable {
+                min-width: 44px;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        
+            /* 调整搜索筛选区域位置，避免被固定页眉遮挡 */
+            .filter-search-section {
+                position: sticky;
+                top: 80px;
+                z-index: 40;
+            }
+        </style>
+    <!-- 顶部导航栏 -->
+    <header class="app-header fixed top-0 left-0 right-0 z-50 flex items-center px-6" style="height: 64px; background-color: #FFFFFF; box-shadow: 0 2px 12px rgba(255, 179, 71, 0.12);">
+        <div class="flex items-center">
+            <i class="fas fa-paw text-3xl mr-2 text-[#FFB347]"></i>
+            <span class="text-xl font-bold text-[#3E2723]">Pawfect Dining</span>
+        </div>
+        <!-- 顶部标签 -->
+        <nav class="ml-12 flex space-x-8">
+            <a class="font-medium text-[#FFB347] border-b-2 border-[#FFB347] pb-1" href="#">RESTAURANT</a>
+            <a class="text-[#5D4037] hover:text-[#3E2723] font-medium" href="#">COMMUNITY</a>
+            <a class="text-[#5D4037] hover:text-[#3E2723] font-medium" href="#">RECOMMENDATIONS</a>
+            <a class="text-[#5D4037] hover:text-[#3E2723] font-medium" href="#">USER CENTER</a>
+            <a class="text-[#5D4037] hover:text-[#3E2723] font-medium" href="#">INFORMATION</a>
+        </nav>
+        <div class="ml-auto flex items-center">
+            <i class="fas fa-bell text-2xl mr-6 text-[#5D4037]"></i>
+            <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                    <img alt="User Profile" class="w-full h-full object-cover" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg"/>
+                </div>
+                <span class="font-medium">PetLover88</span>
+            </div>
+        </div>
+    </header>
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Filter and Search Area -->
+        <div class="filter-search-section">
+            <div class="flex flex-wrap gap-3 items-center justify-between">
+                <!-- Search Box -->
+                <div class="relative flex-grow-1 max-w-xl">
+                    <input type="text" 
+                           placeholder="Search restaurants, cuisine or location..." 
+                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+                
+                <!-- Filter Buttons Group -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="btn-secondary flex items-center gap-1 px-4 py-2 rounded-full">
+                        <i class="fas fa-utensils"></i> <span>Cuisine</span>
+                    </button>
+                    <button class="btn-secondary flex items-center gap-1 px-4 py-2 rounded-full">
+                        <i class="fas fa-map-marker-alt"></i> <span>Location</span>
+                    </button>
+                    <button class="btn-secondary flex items-center gap-1 px-4 py-2 rounded-full">
+                        <i class="fas fa-star"></i> <span>Rating</span>
+                    </button>
+                    <button class="btn-secondary flex items-center gap-1 px-4 py-2 rounded-full">
+                        <i class="fas fa-sliders-h"></i> <span>Advanced Filter</span>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Top Banner Area -->
+        <div class="relative rounded-2xl overflow-hidden mb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Corgi Image -->
+                <div class="relative h-[500px] lg:h-auto">
+                    <img src="https://s.coze.cn/image/wa9QWtOrpBE/" 
+                         alt="Corgi in restaurant" 
+                         class="w-full h-full object-cover rounded-2xl">
+                    <div class="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm px-6 py-3 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-dark">Share Good Times with Your Pet</h2>
+                        <p class="text-dark/70">Discover the best pet-friendly restaurants nationwide</p>
+                    </div>
+                </div>
+                
+                <!-- Restaurant Recommendations Image Area -->
+                <div class="content-section">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/z1HJXK-QUUE/" 
+                             alt="Pet-friendly cafe" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">PAW CAFE</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/MNHbMNHKTh8/" 
+                             alt="Outdoor pet-friendly restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">TERRACE DINER</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/QDXlYt05UqA/" 
+                             alt="Italian restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">PASTA PAWS</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/6Zuoc-3LAaE/" 
+                             alt="Japanese restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">BOWL & PAW</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" 
+                             alt="French restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">LE CHIEN</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/b52bh9nWoFo/" 
+                             alt="American restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">BARK & BURGER</span>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        <!-- Wagging Tail Cafe Restaurant Details -->
+        <div class="content-section card-hover">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+                <div class="md:w-1/3">
+                    <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" 
+                         alt="Wagging Tail Cafe" 
+                         class="w-full h-64 object-cover rounded-xl">
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center mb-4">
+                        <h2 class="text-2xl font-bold text-dark mr-3">Wagging Tail Cafe</h2>
+                        <span class="tag-accent">Urban Pet Cafe</span>
+                    </div>
+                    <div class="flex items-center mb-4 text-amber-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="ml-2 text-dark/70 font-medium">4.7 (189 reviews)</span>
+                    </div>
+                    <p class="text-dark/80 mb-4">
+                        Wagging Tail Cafe is a cozy urban retreat for pets and their owners, located in the heart of Central. With a warm atmosphere and dedicated play areas, we offer specialty coffee, homemade treats, and a specially crafted pet menu using organic ingredients. Our cafe is designed to provide a relaxing space where you can enjoy quality time with your furry companion.                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-primary rounded-full text-sm text-dark/70">
+                            <i class="fas fa-coffee mr-1"></i>Artisan Coffee
+                        </span>
+                        <span class="px-3 py-1 bg-primary rounded-full text-sm text-dark/70">
+                            <i class="fas fa-paw mr-1"></i>Pet Menu
+                        </span>
+                        <span class="px-3 py-1 bg-primary rounded-full text-sm text-dark/70">
+                            <i class="fas fa-cookie mr-1"></i>Homemade Treats
+                        </span>
+                        <span class="px-3 py-1 bg-primary rounded-full text-sm text-dark/70">
+                            <i class="fas fa-gamepad mr-1"></i>Pet Play Area
+                        </span>
+                        <span class="px-3 py-1 bg-primary rounded-full text-sm text-dark/70">
+                            <i class="fas fa-wifi mr-1"></i>Free WiFi
+                        </span>
+                    </div>
+                    
+                    <!-- Restaurant Contact Information -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold mb-3 text-dark">Contact Information</h4>
+                        <div class="space-y-2">
+                            <p class="flex items-start">
+                                <i class="fas fa-map-marker-alt mt-1 mr-3 text-accent"></i>
+                                <span>42 Gough Street, Central, Hong Kong</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-phone-alt mr-3 text-accent"></i>
+                                <span>+852 2345 6789</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-envelope mr-3 text-accent"></i>
+                                <span>paws@waggingtailcafe.com</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-clock mr-3 text-accent"></i>
+                                <span>Mon-Fri: 8:00 AM - 8:00 PM, Sat-Sun: 9:00 AM - 9:00 PM</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-calendar-alt mr-3 text-accent"></i>
+                                <span>Pet Meetup: Every Saturday, 3:00 PM - 5:00 PM</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pet Policy -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold mb-3 text-dark">Pet Policy</h4>
+                        <div class="space-y-2">
+                            <p class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>All dog breeds and sizes welcome</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Pet water bowls available throughout</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Designated indoor/outdoor play areas</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span>Pet grooming station available</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-amber-500 mr-3"></i>
+                                <span>Leashes required when not in play areas</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-amber-500 mr-3"></i>
+                                <span>Pet food must be purchased on-site</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Facilities -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold mb-3 text-dark">Facilities</h4>
+                        <div class="space-y-2">
+                            <p class="flex items-center">
+                                <i class="fas fa-wifi mr-3 text-accent"></i>
+                                <span>Free High-Speed WiFi</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-paw mr-3 text-accent"></i>
+                                <span>Indoor Pet Play Area</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-shower mr-3 text-accent"></i>
+                                <span>Pet Washing Station</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-plug mr-3 text-accent"></i>
+                                <span>Power Outlets at Every Table</span>
+                            </p>
+                            <p class="flex items-center">
+                                <i class="fas fa-parking mr-3 text-accent"></i>
+                                <span>Paid Parking Nearby</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="btn-primary px-6 py-3 rounded-full font-medium flex items-center btn-feedback" id="addToFavorites">
+                            <i class="far fa-heart mr-2"></i>Add to Favorites
+                        </button>
+                        <button class="btn-primary px-6 py-3 rounded-full font-medium flex items-center btn-feedback" id="vipReservation">
+                            <i class="fas fa-crown mr-2"></i>VIP Online Booking
+                        </button>
+                        <button class="btn-secondary px-6 py-3 rounded-full font-medium flex items-center btn-feedback">
+                            <i class="fas fa-map-marker-alt mr-2"></i>View Location
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Customer Reviews Section -->
+        <div class="content-section mt-12">
+            <h2 class="text-2xl font-bold mb-6">Customer Reviews</h2>
+            
+            <!-- Review Cards -->
+            <div class="space-y-6">
+                <!-- Review 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <img src="https://s.coze.cn/image/67T4TgRIPl4/" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Sarah Lin</h4>
+                                <p class="text-dark/70 text-sm">Visited 5 days ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-amber-500">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-dark/80">Wagging Tail Cafe has become my favorite spot to relax with my Pomeranian! The lavender latte is divine, and their homemade dog cookies are always freshly baked. My pup loves the indoor play section, and the staff always remember both our names. Such a warm and welcoming environment!</p>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Thomas Anderson</h4>
+                                <p class="text-dark/70 text-sm">Visited 1 week ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-amber-500">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="text-dark/80">As a remote worker, Wagging Tail Cafe is my ideal workspace! Their cold brew is excellent, and I appreciate the dog-friendly workspace areas. My Golden Retriever enjoys watching people from the outdoor patio while I get work done. The avocado toast is also a must-try - fresh and delicious!</p>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <img src="https://s.coze.cn/image/6Zuoc-3LAaE/" alt="Customer" class="w-12 h-12 rounded-full object-cover">
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Olivia Parker</h4>
+                                <p class="text-dark/70 text-sm">Visited 2 days ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-amber-500">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-dark/80">Wagging Tail Cafe hosts the best dog meetups in town! My Corgi has made so many new friends in their spacious play area. Their matcha latte is perfectly balanced, and the staff are knowledgeable about dog behavior. The only downside is it gets quite busy on weekends - arrive early!</p>
+                </div>
+            </div>
+            
+            <!-- Read More Reviews Button -->
+            <div class="text-center mt-8">
+                <button class="btn-secondary px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all">
+                    Read More Reviews
+                </button>
+            </div>
+        </div>
+        
+        <!-- Photo Gallery Section -->
+        <div class="content-section mt-12">
+            <h2 class="text-2xl font-bold mb-6">Photo Gallery</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <img src="https://s.coze.cn/image/b52bh9nWoFo/" alt="Restaurant interior" class="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-lg transition-all">
+                <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" alt="European cuisine" class="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-lg transition-all">
+                <img src="https://s.coze.cn/image/6Zuoc-3LAaE/" alt="Pet-friendly terrace" class="w-full h-64 object-cover rounded-xl shadow-md hover:shadow-lg transition-all">
+            </div>
+        </div>
+        
+        <!-- Map Location Section -->
+        <div class="content-section mt-12 mb-12">
+            <h2 class="text-2xl font-bold mb-6">Location & Map</h2>
+            
+            <div class="bg-gray-100 rounded-xl overflow-hidden h-96">
+                <!-- Map Placeholder -->
+                <div class="w-full h-full bg-primary/20 flex items-center justify-center">
+                    <div class="text-center">
+                            <i class="fas fa-map-marker-alt text-4xl text-accent mb-3"></i>
+                            <h4 class="text-xl font-semibold mb-2">Wagging Tail Cafe</h4>
+                            <p>42 Gough Street, Central, Hong Kong</p>
+                            <button class="mt-4 btn-primary px-6 py-2 rounded-full shadow-md hover:shadow-lg transition-all">
+                                <i class="fas fa-directions mr-2"></i>Get Directions
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            
+            <!-- 高级筛选和查找更多 -->
+            <div class="mt-10 text-center">
+                <h3 class="text-xl font-bold text-dark mb-6">探索更多选项</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="bg-white border border-gray-300 rounded-full px-6 py-3 font-medium text-dark hover:bg-primary transition-colors flex items-center">
+                        <i class="fas fa-utensils mr-2 text-accent"></i>Browse by Cuisine
+                    </button>
+                    <button class="bg-white border border-gray-300 rounded-full px-6 py-3 font-medium text-dark hover:bg-primary transition-colors flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-accent"></i>Browse by Location
+                    </button>
+                    <button class="bg-white border border-gray-300 rounded-full px-6 py-3 font-medium text-dark hover:bg-primary transition-colors flex items-center">
+                        <i class="fas fa-star mr-2 text-accent"></i>Browse by Rating
+                    </button>
+                    <button class="bg-white border border-gray-300 rounded-full px-6 py-3 font-medium text-dark hover:bg-primary transition-colors flex items-center">
+                        <i class="fas fa-calendar-alt mr-2 text-accent"></i>Recently Added
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Community Interaction Area -->
+        <div class="content-section">
+            <h2 class="text-2xl font-bold mb-6 text-center">Community Interaction</h2>
+            
+            <!-- User Reviews Section -->
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4">User Reviews</h3>
+                
+                <!-- Review Input Box -->
+                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="mb-2">
+                                <!-- Rating Stars -->
+                                <div class="flex mb-2">
+                                    <i class="fas fa-star text-amber-400 cursor-pointer"></i>
+                                    <i class="fas fa-star text-amber-400 cursor-pointer"></i>
+                                    <i class="fas fa-star text-amber-400 cursor-pointer"></i>
+                                    <i class="far fa-star text-amber-400 cursor-pointer"></i>
+                                    <i class="far fa-star text-amber-400 cursor-pointer"></i>
+                                </div>
+                                <textarea 
+                                    placeholder="Share your dining experience..." 
+                                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none" 
+                                    rows="3"></textarea>
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="btn-secondary px-4 py-2">Submit Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评论列表 -->
+                <div class="space-y-4">
+                    <!-- 评论1 -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-100">
+                        <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500">
+                                    <span class="font-semibold">P</span>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h4 class="font-medium">Patricia Wang</h4>
+                                        <span class="text-sm text-gray-500">1 day ago</span>
+                                    </div>
+                                    <div class="flex text-amber-400 mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <p class="text-gray-700">Wagging Tail Cafe helped me socialize my rescue dog! The staff gave me excellent training tips and created a safe environment for my shy pup. Their coffee is consistently delicious, and I love participating in their weekend pet training workshops. Such a supportive community!</p>
+                                    <div class="mt-3 flex items-center gap-4 text-sm text-gray-500">
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-thumbs-up"></i> Helpful (12)
+                                        </button>
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-comment"></i> Reply
+                                        </button>
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-share-square"></i> Share
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    
+                    <!-- 评论2 -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-100">
+                        <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-500">
+                                    <span class="font-semibold">C</span>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-center mb-1">
+                                        <h4 class="font-medium">Charles Davis</h4>
+                                        <span class="text-sm text-gray-500">3 days ago</span>
+                                    </div>
+                                    <div class="flex text-amber-400 mb-2">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <p class="text-gray-700">The themed dog treat menu at Wagging Tail Cafe is so creative! My Beagle goes crazy for their seasonal specials. I appreciate that they offer both indoor and outdoor seating, and their baristas make the best flat whites in Central. Great place to spend a lazy afternoon with your pup.</p>
+                                    <div class="mt-3 flex items-center gap-4 text-sm text-gray-500">
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-thumbs-up"></i> Helpful (8)
+                                        </button>
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-comment"></i> Reply
+                                        </button>
+                                        <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                            <i class="far fa-share-square"></i> Share
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-6">
+                    <button class="btn-secondary">View More Reviews</button>
+                </div>
+            </div>
+            
+            <!-- Share Function -->
+            <div class="bg-gray-50 p-6 rounded-lg text-center">
+                <h3 class="text-xl font-semibold mb-4">Share with Friends</h3>
+                <p class="mb-4 text-gray-600">Like this restaurant? Share it with your friends!</p>
+                <div class="flex justify-center gap-4">
+                    <button class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+                        <i class="fab fa-weixin text-xl"></i>
+                    </button>
+                    <button class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center text-white hover:bg-red-600 transition-colors">
+                        <i class="fab fa-weibo text-xl"></i>
+                    </button>
+                    <button class="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white hover:bg-blue-500 transition-colors">
+                        <i class="fab fa-qq text-xl"></i>
+                    </button>
+                    <button class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-link text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-[#333] text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- 品牌信息 -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-paw text-3xl mr-2 text-[#FFB347]"></i>
+                        <span class="text-xl font-bold">Pawfect Dining</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        We are committed to finding the best dining experiences for you and your beloved pets, making every outing full of joy.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-[#FFB347] transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[#FFB347] transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[#FFB347] transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-[#FFB347] transition-colors">
+                            <i class="fab fa-weixin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Information -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Information</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Terms & Conditions</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Contact Information</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Community -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Community</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Community Guidelines</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">User Reviews</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Pet Owner Groups</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Event Calendar</a></li>
+                        <li><a href="#" class="hover:text-[#FFB347] transition-colors">Pet Tips</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Us -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-[#FFB347]"></i>
+                            <span>18F, The Centre, 99 Queen's Road, Central</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-[#FFB347]"></i>
+                            <span>+852 1234 5678</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-[#FFB347]"></i>
+                            <span>info@pawfectdining.com.hk</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <h5 class="text-sm font-medium mb-2">Subscribe to Our Newsletter</h5>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email address" class="px-4 py-2 rounded-l-full w-full focus:outline-none text-dark">
+                            <button class="bg-[#FFB347] hover:bg-[#FF9800] transition-colors px-4 py-2 rounded-r-full">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权声明 -->
+            <div class="border-t border-gray-800 mt-8 pt-4 text-center text-gray-500 text-sm">
+                <p>© 2025 PetFriendly Community. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // 已移除移动菜单功能，相关代码已清理
+            
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    if (this.getAttribute('href') === '#') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    
+                    // Close mobile menu
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = menuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+            
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2');
+                    nav.classList.remove('py-4');
+                } else {
+                    nav.classList.add('py-4');
+                    nav.classList.remove('py-2');
+                }
+            });
+            
+            // Card Animation Effect
+            const cards = document.querySelectorAll('.card-hover');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // 收藏功能实现
+            const addToFavoritesBtn = document.getElementById('addToFavorites');
+            if (addToFavoritesBtn) {
+                addToFavoritesBtn.addEventListener('click', function() {
+                    const heartIcon = this.querySelector('i');
+                    const isFavorite = heartIcon.classList.contains('fas');
+                    
+                    if (isFavorite) {
+                        // 取消收藏
+                        heartIcon.classList.remove('fas', 'text-red-500');
+                        heartIcon.classList.add('far');
+                        this.textContent = '添加到收藏';
+                        this.prepend(heartIcon);
+                        showToast('已取消收藏');
+                    } else {
+                        // 添加收藏
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas', 'text-red-500');
+                        this.textContent = '已添加到收藏';
+                        this.prepend(heartIcon);
+                        showToast('收藏成功！');
+                        
+                        // 模拟API调用
+                        simulateLoading(this);
+                    }
+                });
+            }
+            
+            // VIP预订功能实现
+            const vipReservationBtn = document.getElementById('vipReservation');
+            if (vipReservationBtn) {
+                vipReservationBtn.addEventListener('click', function() {
+                    simulateLoading(this);
+                    
+                    // 模拟预订流程
+                    setTimeout(() => {
+                        showToast('正在跳转到VIP预订页面...');
+                        // 这里可以添加实际的预订页面跳转逻辑
+                        alert('VIP预订系统已启动！\n您将被重定向到预订页面。');
+                    }, 1500);
+                });
+            }
+            
+            // 加载状态模拟
+            function simulateLoading(button) {
+                const originalContent = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+                
+                setTimeout(() => {
+                    button.disabled = false;
+                    // 不恢复原始内容，因为收藏按钮的状态可能已改变
+                }, 1000);
+            }
+            
+            // Toast消息提示 - 增强版
+            function showToast(message, type = 'success') {
+                // 检查是否已存在toast元素
+                let toast = document.getElementById('toastMessage');
+                
+                // 定义不同类型的样式
+                const bgColors = {
+                    success: 'bg-primary',
+                    error: 'bg-red-500',
+                    warning: 'bg-amber-500',
+                    info: 'bg-blue-500'
+                };
+                
+                if (toast) {
+                    // 如果已存在，更新内容和样式
+                    toast.textContent = message;
+                    // 移除所有类型类并添加新的类型类
+                    Object.values(bgColors).forEach(color => {
+                        toast.classList.remove(color);
+                    });
+                    toast.classList.add(bgColors[type]);
+                } else {
+                    // 创建新的toast元素
+                    toast = document.createElement('div');
+                    toast.id = 'toastMessage';
+                    toast.className = `fixed bottom-8 left-1/2 transform -translate-x-1/2 ${bgColors[type]} text-white px-6 py-3 rounded-full shadow-lg z-50 opacity-0 transition-all 0.3s transform translate-y-2`;
+                    toast.textContent = message;
+                    document.body.appendChild(toast);
+                }
+                
+                // 显示toast - 添加动画效果
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                    toast.style.transform = 'translate(-50%, 0)';
+                }, 10);
+                
+                // 3秒后隐藏
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translate(-50%, 20px)';
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+            
+            // 为所有按钮添加交互反馈
+            document.addEventListener('DOMContentLoaded', function() {
+                // 为所有按钮添加悬停和点击效果
+                const buttons = document.querySelectorAll('button:not([disabled])');
+                
+                buttons.forEach(button => {
+                    // 添加点击波纹效果
+                    button.addEventListener('click', function(e) {
+                        // 创建波纹元素
+                        const ripple = document.createElement('span');
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+                        
+                        ripple.style.width = ripple.style.height = `${size}px`;
+                        ripple.style.left = `${x}px`;
+                        ripple.style.top = `${y}px`;
+                        ripple.classList.add('ripple');
+                        
+                        // 移除之前的波纹效果
+                        const previousRipple = this.querySelector('.ripple');
+                        if (previousRipple) {
+                            previousRipple.remove();
+                        }
+                        
+                        this.appendChild(ripple);
+                        
+                        // 添加波纹样式
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            .ripple {
+                                position: absolute;
+                                border-radius: 50%;
+                                background-color: rgba(255, 255, 255, 0.5);
+                                transform: scale(0);
+                                animation: ripple-effect 0.6s ease-out;
+                                pointer-events: none;
+                            }
+                            
+                            @keyframes ripple-effect {
+                                0% {
+                                    transform: scale(0);
+                                    opacity: 1;
+                                }
+                                100% {
+                                    transform: scale(4);
+                                    opacity: 0;
+                                }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    });
+                    
+                    // 为筛选按钮添加点击效果
+                    if (button.classList.contains('btn-secondary')) {
+                        button.addEventListener('click', function() {
+                            showToast('筛选条件已应用', 'info');
+                        });
+                    }
+                });
+                
+                // 为搜索框添加交互反馈
+                const searchInput = document.querySelector('input[placeholder*="搜索"]');
+                if (searchInput) {
+                    searchInput.addEventListener('focus', function() {
+                        showToast('开始输入搜索关键词', 'info');
+                    });
+                    
+                    searchInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter' && this.value.trim()) {
+                            showToast(`搜索: ${this.value.trim()}`, 'info');
+                        }
+                    });
+                }
+                
+                // 为餐厅卡片添加交互反馈
+                const restaurantCards = document.querySelectorAll('.card-hover');
+                restaurantCards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
