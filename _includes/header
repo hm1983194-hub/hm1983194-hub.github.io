@@ -6,8 +6,8 @@
     </div>
     <!-- 顶部标签 -->
     <nav class="ml-12 flex space-x-8">
-        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="listing">RESTAURANT</a>
-        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="community">COMMUNITY</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="listing.html">RESTAURANT</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="community.html">COMMUNITY</a>
         <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="recommendation">RECOMMENDATIONS</a>
         <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="user_center">USER CENTER</a>
         <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="website_information">INFORMATION</a>
