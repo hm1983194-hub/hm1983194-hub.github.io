@@ -559,7 +559,7 @@
 </head>
 <body>
     <!-- 导航栏 -->
-    {% include header.html %}
+    {% include header %}
 
     <!-- 主要内容 -->
     <main class="section">
@@ -884,7 +884,7 @@
     </main>
 
     <!-- 页脚 -->
-    {% include footer.html %}
+    {% include footer %}
 
 </body>
 </html>
