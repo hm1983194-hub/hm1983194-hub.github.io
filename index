@@ -1,0 +1,566 @@
+---
+# 这行空着即可，必须保留 --- 标记
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Explorer - Pet-Friendly Restaurant Guide</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB347',
+                        primaryLight: '#FFE0B2',
+                        primaryDark: '#FF9800',
+                        success: '#8BC34A',
+                        warning: '#FFA726',
+                        error: '#F44336',
+                        info: '#9E9E9E',
+                        background: '#FFF8F0',
+                        card: '#FFFFFF',
+                        text: '#3E2723'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang SC', 'sans-serif'],
+                    },
+                    fontSize: {
+                        h1: ['28px', { fontWeight: 700 }],
+                        h2: ['24px', { fontWeight: 600 }],
+                        body: ['14px', { fontWeight: 400 }]
+                    },
+                    boxShadow: {
+                        'custom': '0 2px 12px rgba(255,179,71,0.12)',
+                        'hover': '0 8px 24px rgba(255,179,71,0.2)'
+                    },
+                    transitionProperty: {
+                        'custom': 'all 0.3s ease-in-out'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            }
+            .card-hover {
+                transition: all 0.3s ease-in-out;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 24px rgba(255,179,71,0.2);
+            }
+            .nav-shadow {
+                box-shadow: 0 2px 12px rgba(255,179,71,0.12);
+            }
+            .btn-primary {
+                background-color: #FFB347;
+                color: #3E2723;
+                border: none;
+                transition: all 0.3s ease-in-out;
+            }
+            .btn-primary:hover {
+                background-color: #FF9800;
+                color: #FFF8F0;
+            }
+            .tag-accent {
+                background-color: #8BC34A;
+                color: white;
+                padding: 2px 10px;
+                border-radius: 12px;
+                font-size: 0.75rem;
+                font-weight: 500;
+            }
+            .input-focus:focus {
+                border-color: #FFB347;
+                box-shadow: 0 0 0 2px rgba(255,179,71,0.2);
+                outline: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen text-text font-sans">
+    <!-- Navigation Bar -->
+    {% include header.html %}  <!-- 之前的导航栏引用 -->
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Top Banner Area -->
+        <div class="relative rounded-xl overflow-hidden mb-12 shadow-custom">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Corgi Image -->
+                <div class="relative h-[500px] lg:h-auto">
+                    <img src="https://s.coze.cn/image/wa9QWtOrpBE/" 
+                         alt="Corgi in restaurant" 
+                         class="w-full h-full object-cover rounded-xl">
+                    <div class="absolute bottom-6 left-6 bg-card/90 backdrop-blur-sm px-6 py-3 rounded-xl shadow-custom">
+                        <h2 class="text-2xl font-bold text-text">Share Good Times with Your Pet</h2>
+                        <p class="text-text/70">Discover the best pet-friendly restaurants nationwide</p>
+                    </div>
+                </div>
+                
+                <!-- Restaurant Recommendations Image Area -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/z1HJXK-QUUE/" 
+                             alt="Pet-friendly cafe" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">PAW CAFE</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/MNHbMNHKTh8/" 
+                             alt="Outdoor pet-friendly restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">TERRACE DINER</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/QDXlYt05UqA/" 
+                             alt="Italian restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">PASTA PAWS</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/6Zuoc-3LAaE/" 
+                             alt="Japanese restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">BOWL & PAW</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" 
+                             alt="French restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">LE CHIEN</span>
+                        </div>
+                    </div>
+                    <div class="relative h-[240px] card-hover rounded-xl overflow-hidden">
+                        <img src="https://s.coze.cn/image/b52bh9nWoFo/" 
+                             alt="American restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                            <span class="text-white font-medium">BARK & BURGER</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAW GARDEN Card -->
+        <div class="bg-card rounded-xl shadow-custom p-6 mb-12 card-hover">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+                <div class="md:w-1/3">
+                    <img src="https://s.coze.cn/image/67T4TgRIPl4/" 
+                         alt="PAW GARDEN restaurant" 
+                         class="w-full h-64 object-cover rounded-xl">
+                </div>
+                <div class="md:w-2/3">
+                    <div class="flex items-center mb-4">
+                        <h2 class="text-2xl font-bold text-text mr-3">PAW GARDEN</h2>
+                        <span class="tag-accent">Recommended Restaurant</span>
+                    </div>
+                    <div class="flex items-center mb-4 text-amber-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="ml-2 text-text/70 font-medium">4.8 (245 reviews)</span>
+                    </div>
+                    <p class="text-text/80 mb-4">
+                        PAW GARDEN is a garden restaurant designed specifically for pets and their owners, offering spacious outdoor areas and comfortable indoor environments. Our menu features not only delicious human food but also specially designed healthy meals for pets. All areas are equipped with pet-friendly facilities, including water stations, rest areas, and play spaces.
+                    </p>
+                    <p class="text-text/80 mb-6">
+                        Our chef team carefully prepares each dish using fresh organic ingredients to ensure both you and your pet enjoy a high-quality dining experience. We also have live music performances on weekends to add more fun to your meal.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-primaryLight rounded-full text-sm text-text/70">
+                            <i class="fas fa-dog mr-1"></i>Pet Menu
+                        </span>
+                        <span class="px-3 py-1 bg-primaryLight rounded-full text-sm text-text/70">
+                            <i class="fas fa-tree mr-1"></i>Outdoor Garden
+                        </span>
+                        <span class="px-3 py-1 bg-primaryLight rounded-full text-sm text-text/70">
+                            <i class="fas fa-music mr-1"></i>Live Music
+                        </span>
+                        <span class="px-3 py-1 bg-primaryLight rounded-full text-sm text-text/70">
+                            <i class="fas fa-utensils mr-1"></i>International Cuisine
+                        </span>
+                        <span class="px-3 py-1 bg-primaryLight rounded-full text-sm text-text/70">
+                            <i class="fas fa-parking mr-1"></i>Free Parking
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <button class="btn-primary px-6 py-3 rounded-full font-medium flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i>View Location
+                        </button>
+                        <button class="btn-primary px-6 py-3 rounded-full font-medium flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>Reservation Phone
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Restaurant List -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-text">Discover More Pet-Friendly Restaurants</h2>
+                <div class="flex items-center space-x-2">
+                    <button class="bg-card border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center text-text hover:bg-primaryLight transition-colors">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="bg-card border border-gray-300 rounded-full w-10 h-10 flex items-center justify-center text-text hover:bg-primaryLight transition-colors">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Restaurant List Item 1 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/osWvUFOTBh8/" 
+                             alt="City cafe" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">CITY PAWS CAFE</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.6</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A boutique cafe located in the city center, offering premium coffee and handmade desserts, with dedicated pet rest areas and pet treats.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Coffee</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Desserts</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Indoor/Outdoor Seating</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>City Center
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurant List Item 2 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/A2xFXA3MgXY/" 
+                             alt="River restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">RIVER BISTRO</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.7</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A casual restaurant built along the river, offering fresh seafood and local specialties, with a spacious outdoor terrace where pets can move freely.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Seafood</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Terrace</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">River View</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>Riverside Area
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurant List Item 3 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/KCWglfHhURs/" 
+                             alt="Healthy restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">GREEN BOWL</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.5</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A restaurant focused on healthy eating, offering organic salads, grain bowls, and plant-based dishes, while also providing healthy pet meals.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Healthy</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Vegetarian</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Pet Meals</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>Health District
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurant List Item 4 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/TH0gzxbxUoE/" 
+                             alt="Pizza restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">PIZZA & PAWS</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.4</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A family-style pizza restaurant offering handcrafted Italian pizzas and pastas, with a spacious dining area and pet play zone.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Pizza</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Pasta</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Family-Friendly</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>Residential Area
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurant List Item 5 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/PszPqXXhkJI/" 
+                             alt="Asian fusion restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">FURRY BOWL</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.8</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A creative restaurant featuring fusion Asian cuisines, offering sushi, ramen, and Thai dishes, where pets can move freely indoors and outdoors.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Asian Fusion</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Creative Cuisine</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Indoor/Outdoor</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>Creative District
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Restaurant List Item 6 -->
+                <div class="bg-card rounded-xl shadow-custom overflow-hidden card-hover">
+                    <div class="relative h-48">
+                        <img src="https://s.coze.cn/image/LusM4a2vqBM/" 
+                             alt="Brunch restaurant" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-text">
+                            <i class="fas fa-dog mr-1 text-primary"></i>Pet-Friendly
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-text">BRUNCH & BARK</h3>
+                            <div class="flex items-center text-amber-500">
+                                <i class="fas fa-star text-sm"></i>
+                                <span class="ml-1 text-text font-medium">4.6</span>
+                            </div>
+                        </div>
+                        <p class="text-text/70 text-sm mb-4 line-clamp-2">
+                            A popular weekend brunch spot offering eggs benedict, waffles, and fresh juices, with a sunny terrace for pets and owners to relax.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Brunch</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Coffee</span>
+                            <span class="px-2 py-1 bg-primaryLight rounded-full text-xs text-text/70">Terrace</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-text/70 text-sm">
+                                <i class="fas fa-map-marker-alt mr-1 text-primary"></i>Fashion District
+                            </span>
+                            <button class="text-primary font-medium text-sm hover:underline">
+                                Details <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FIND MORE Button -->
+            <div class="mt-10 text-center">
+                <h3 class="text-xl font-bold text-text mb-6">FIND MORE</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="bg-card border border-gray-300 rounded-full px-6 py-3 font-medium text-text hover:bg-primaryLight transition-colors flex items-center">
+                        <i class="fas fa-utensils mr-2 text-primary"></i>Browse by Cuisine
+                    </button>
+                    <button class="bg-card border border-gray-300 rounded-full px-6 py-3 font-medium text-text hover:bg-primaryLight transition-colors flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2 text-primary"></i>Browse by Location
+                    </button>
+                    <button class="bg-card border border-gray-300 rounded-full px-6 py-3 font-medium text-text hover:bg-primaryLight transition-colors flex items-center">
+                        <i class="fas fa-star mr-2 text-primary"></i>Browse by Rating
+                    </button>
+                    <button class="bg-card border border-gray-300 rounded-full px-6 py-3 font-medium text-text hover:bg-primaryLight transition-colors flex items-center">
+                        <i class="fas fa-calendar-alt mr-2 text-primary"></i>Recently Added
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Contact Bar -->
+    {% include footer.html %}
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            menuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                
+                // Toggle icon
+                const icon = this.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+            
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    if (this.getAttribute('href') === '#') {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    
+                    // Close mobile menu
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = menuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+            
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2');
+                    nav.classList.remove('py-4');
+                } else {
+                    nav.classList.add('py-4');
+                    nav.classList.remove('py-2');
+                }
+            });
+            
+            // Card Animation Effect
+            const cards = document.querySelectorAll('.card-hover');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
