@@ -324,26 +324,28 @@
         <span class="text-xl font-bold text-[var(--text-primary)]">Pawfect Dining</span>
     </div>
         <!-- 顶部标签 -->
-
-        <nav class="ml-12 flex space-x-8">
-            <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="listing.html">RESTAURANT</a>
-            <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="community.html">COMMUNITY</a>
-            <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="recommendations.html">RECOMMENDATIONS</a>
-            <a class="font-medium text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1" href="user_center.html">USER CENTER</a>
-            <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="website_information.html">INFORMATION</a>
-        </nav>
-        <div class="ml-auto flex items-center">
-            <iconify-icon class="text-2xl mr-6 text-[var(--text-secondary)]" icon="mdi:bell-outline"></iconify-icon>
-            <div class="flex items-center">
-                <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
-                    <img alt="User Profile" class="w-full h-full object-cover" id="1" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg"/>
+        <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <iconify-icon class="logo-icon" icon="noto:paw-prints"></iconify-icon>
+                <span class="logo-text">Pawfect Dining</span>
+            </a>
+            <nav class="nav-links">
+                <a href="listing.html" class="nav-link">RESTAURANT</a>
+                <a href="community.html" class="nav-link">COMMUNITY</a>
+                <a href="recommendations.html" class="nav-link active">RECOMMENDATIONS</a>
+                <a href="user_center.html" class="nav-link">USER CENTER</a>
+                <a href="website_information.html" class="nav-link">INFORMATION</a>
+            </nav>
+            <div class="user-actions">
+                <iconify-icon class="notification-icon" icon="mdi:bell-outline"></iconify-icon>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg" alt="User Profile">
+                    </div>
+                    <span class="user-name">PetLover88</span>
                 </div>
-                <span class="font-medium">PetLover88</span>
             </div>
-        </div>
-    </header>
-    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
-
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-8">
         <!-- Filter and Search Area -->
