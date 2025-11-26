@@ -94,7 +94,7 @@
 </head>
 <body class="bg-background min-h-screen text-text font-sans">
     <!-- Navigation Bar -->
-    {% include header.html %}  <!-- 之前的导航栏引用 -->
+    {% include header %}  <!-- 之前的导航栏引用 -->
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-8">
