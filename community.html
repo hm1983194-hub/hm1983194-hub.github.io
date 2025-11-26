@@ -1,1 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Dining - Pet Friendly Restaurant Guides</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 补充 iconify 图标库 CDN（与 user_center.html 一致） -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+    <style>
+        /* 颜色规范 - 暖黄色调（同步 user_center.html 变量命名） */
+        :root {
+            --primary: #FFB347; /* 主色 */
+            --primary-light: #FFE0B2; /* 主色浅 */
+            --primary-dark: #FF9800; /* 主色深 */
+            --success-color: #8BC34A; /* 温和绿色 */
+            --warning-color: #FFA726; /* 温暖橙色 */
+            --error-color: #F44336; /* 错误红色 */
+            --info-color: #9E9E9E; /* 暖灰色 */
+            --bg-page: #FFF8F0; /* 页面背景 - 温暖的米白色 */
+            --bg-card: #FFFFFF; /* 卡片背景 */
+            --bg-secondary: #FFF3E0; /* 次要背景区域 */
+            --text-primary: #3E2723; /* 主文本 - 温暖的深棕色 */
+            --text-secondary: #5D4037; /* 次要文本 */
+            --text-description: #8D6E63; /* 说明文本 */
+            --text-disabled: #BCAAA4; /* 禁用文本 */
+            --border-normal: #D7CCC8; /* 普通边框 */
+            --border-light: #EFEBE9; /* 浅边框 */
+            --border-disabled: #BCAAA4; /* 禁用边框 */
+            --border-hover: #FFB347; /* 悬停边框 */
+            --shadow-normal: 0 2px 12px rgba(255, 179, 71, 0.12);
+            --shadow-hover: 0 4px 20px rgba(255, 179, 71, 0.16);
+        }
+        
+        /* 字体规范 */
+        body {
+            font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-page);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        h1 {
+            font-size: 28px;
+            line-height: 40px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+        }
+        
+        h2 {
+            font-size: 24px;
+            line-height: 36px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+        
+        h3 {
+            font-size: 20px;
+            line-height: 32px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+        }
+        
+        .text-large {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+        }
+        
+        .text-default {
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+        }
+        
+        .text-small {
+            font-size: 12px;
+            line-height: 18px;
+            font-weight: 400;
+        }
+        
+        /* 布局与间距 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        /* 导航栏（完全同步 user_center.html 样式） */
+        .app-header {
+            height: 64px;
+            background-color: var(--bg-card);
+            box-shadow: var(--shadow-normal);
+            transition: all 0.3s ease-in-out;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .notification-icon {
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .notification-icon:hover {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            padding: 0 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-large {
+            height: 52px;
+        }
+        
+        .btn-small {
+            height: 36px;
+            padding: 0 16px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-primary:active {
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-text {
+            background: none;
+            color: var(--primary);
+            border: none;
+        }
+        
+        .btn-text:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .btn:disabled {
+            background-color: var(--border-light);
+            color: var(--text-disabled);
+            cursor: not-allowed;
+        }
+        
+        /* 页脚样式（完全同步 user_center.html） */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 48px 0 24px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 16px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-logo-icon {
+            font-size: 24px;
+            color: #FFD700;
+        }
+        
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .footer-desc {
+            color: #aaa;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .social-link {
+            color: #aaa;
+            font-size: 20px;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .social-link:hover {
+            color: #FFD700;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+        
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-contact li {
+            color: #aaa;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-contact i {
+            color: #FFD700;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 评分样式 */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .star {
+            color: var(--primary-light);
+            font-size: 16px;
+        }
+        
+        .star.filled {
+            color: var(--primary);
+        }
+        
+        /* 分隔线 */
+        .divider {
+            height: 1px;
+            background-color: var(--border-light);
+            margin: 16px 0;
+        }
+        
+        /* 输入框样式 */
+        .input {
+            width: 100%;
+            height: 40px;
+            padding: 0 16px;
+            border: 1px solid var(--border-normal);
+            border-radius: 8px;
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+        }
+        
+        .input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 179, 71, 0.12);
+        }
+        
+        .input:disabled {
+            background-color: var(--bg-secondary);
+            border-color: var(--border-disabled);
+            color: var(--text-disabled);
+            cursor: not-allowed;
+        }
+        
+        .input::placeholder {
+            color: var(--text-disabled);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-normal);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid transparent;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+        
+        /* 列表样式 */
+        ul, ol {
+            color: var(--text-secondary);
+        }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            background-color: var(--bg-secondary);
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 64px; /* 适配固定页眉高度，避免遮挡 */
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-description);
+        }
+        
+        /* 分类导航 */
+        .category-nav {
+            background-color: var(--bg-card);
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow-normal);
+            margin-bottom: 2rem;
+        }
+        
+        .category-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .category-list li a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-color: var(--bg-secondary);
+            transition: all 0.3s;
+        }
+        
+        .category-list li a:hover,
+        .category-list li a.active {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        /* 主要内容区域 */
+        .main-content {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .article-content {
+            flex: 2;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow-normal);
+        }
+        
+        .article-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .article-meta {
+            display: flex;
+            color: var(--text-description);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .article-meta span {
+            margin-right: 1rem;
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-body {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .article-body p {
+            margin-bottom: 1rem;
+        }
+        
+        .article-image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(62, 39, 35, 0.6);
+            color: white;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* 相关文章 */
+        .related-articles {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* 推荐文章侧边栏 */
+        .recommended-sidebar {
+            flex: 1;
+        }
+        
+        .recommended-articles {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .article-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-normal);
+            transition: transform 0.3s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-image {
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .article-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 1rem;
+        }
+        
+        .card-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-content p {
+            font-size: 0.9rem;
+            color: var(--text-description);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-description);
+        }
+        
+        /* 评论区 */
+        .comments-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-normal);
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            color: var(--text-primary);
+        }
+        
+        .comments-list {
+            margin-top: 2rem;
+        }
+        
+        .comment {
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-author {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .comment-date {
+            color: var(--text-description);
+            font-size: 0.9rem;
+        }
+        
+        .comment-body {
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        /* 社交分享 */
+        .social-share {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-light);
+            align-items: center;
+        }
+        
+        .social-share span {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-normal);
+        }
+        
+        .facebook:hover {
+            background-color: #3b5998;
+            color: white;
+        }
+        
+        .twitter:hover {
+            background-color: #1da1f2;
+            color: white;
+        }
+        
+        .pinterest:hover {
+            background-color: #bd081c;
+            color: white;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-card);
+                padding: 1rem;
+                box-shadow: var(--shadow-normal);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-secondary);
+                font-size: 24px;
+                cursor: pointer;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .category-list {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏（完全同步 user_center.html 结构和样式） -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <iconify-icon class="logo-icon" icon="noto:paw-prints"></iconify-icon>
+                <span class="logo-text">Pawfect Dining</span>
+            </a>
+            <nav class="nav-links">
+                <a href="listing.html" class="nav-link">RESTAURANT</a>
+                <a href="community.html" class="nav-link active">COMMUNITY</a>
+                <a href="recommendations.html" class="nav-link">RECOMMENDATIONS</a>
+                <a href="user_center.html" class="nav-link">USER CENTER</a>
+                <a href="website_information.html" class="nav-link">INFORMATION</a>
+            </nav>
+            <div class="user-actions">
+                <iconify-icon class="notification-icon" icon="mdi:bell-outline"></iconify-icon>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg" alt="User Profile">
+                    </div>
+                    <span class="user-name">PetLover88</span>
+                </div>
+            </div>
+            <!-- 移动端菜单按钮 -->
+            <button class="mobile-menu-btn" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
+    <!-- 页面标题 -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Pet Friendly Restaurant Guides</h1>
+            <p>Discover the best places to dine with your furry friends</p>
+        </div>
+    </section>
+
+    <!-- 分类导航 -->
+    <section class="category-nav">
+        <div class="container">
+            <ul class="category-list">
+                <li><a href="community.html" class="active">All Guides</a></li>
+                <li><a href="dining_etiquette.html">Dining Etiquette</a></li>
+                <li><a href="health_safety.html">Health & Safety</a></li>
+                <li><a href="city_guides.html">City Guides</a></li>
+                <li><a href="restaurant_reviews.html">Restaurant Reviews</a></li>
+                <li><a href="pet_menus.html">Pet Menus</a></li>
+                <li><a href="training_tips.html">Training Tips</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 主要内容区域 -->
+    <div class="container">
+        <div class="main-content">
+            <!-- 文章内容 -->
+            <div class="article-content">
+                <div class="article-header">
+                    <h2>Top 10 Pet-Friendly Restaurants in New York City</h2>
+                    <div class="article-meta">
+                        <span class="author">By Sarah Johnson</span>
+                        <span class="date">Published on October 15, 2023</span>
+                        <span class="read-time">8 min read</span>
+                    </div>
+                </div>
+                
+                <div class="article-image">
+                    <img src="https://s.coze.cn/image/MNHbMNHKTh8/" alt="Dog dining at restaurant">
+                    <div class="article-image-caption">A dog enjoying a meal at a pet-friendly restaurant</div>
+                </div>
+                
+                <div class="article-body">
+                    <p>Finding restaurants that welcome both you and your furry companion can be challenging in a bustling city like New York. But worry not! We've curated a list of the top 10 pet-friendly restaurants where you and your pet can enjoy a wonderful dining experience together.</p>
+                    
+                    <p>From cozy cafes with special pet menus to upscale restaurants with outdoor seating designed for pets, New York offers a variety of options for pet owners. These establishments not only allow pets but go the extra mile to make them feel welcome with water bowls, treats, and sometimes even special pet menus.</p>
+                    
+                    <p>When dining with your pet, it's important to follow proper etiquette to ensure a pleasant experience for everyone. Always call ahead to confirm the restaurant's pet policy, keep your pet on a leash, and be mindful of other diners.</p>
+                    
+                    <p>Our top picks include The Barking Lot Bistro in Greenwich Village, known for its homemade dog treats and spacious outdoor patio, and Paws & Plates in Brooklyn, which offers a separate menu for dogs with healthy, vet-approved options.</p>
+                    
+                    <p>Many of these restaurants also host pet-friendly events throughout the year, such as "Yappy Hours" and costume contests during holidays. These events are a great way to meet other pet owners and socialize your furry friend in a safe, welcoming environment.</p>
+                    
+                    <p>When visiting any pet-friendly restaurant, remember to bring essential items like a leash, waste bags, and a portable water bowl (though most establishments will provide these). It's also a good idea to check if the restaurant requires reservations, especially during peak hours or for larger groups.</p>
+                </div>
+                
+                <!-- 相关文章 -->
+                <div class="related-articles">
+                    <h3 class="section-title">Related Articles</h3>
+                    <div class="related-grid">
+                        <div class="article-card">
+                            <div class="card-image">
+                                <img src="https://s.coze.cn/image/z1HJXK-QUUE/" alt="Dog at cafe">
+                            </div>
+                            <div class="card-content">
+                                <h3>How to Train Your Dog for Restaurant Visits</h3>
+                                <p>Essential tips for preparing your pet for dining out</p>
+                                <div class="card-meta">September 28, 2023</div>
+                            </div>
+                        </div>
+                        
+                        <div class="article-card">
+                            <div class="card-image">
+                                <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Pet-friendly patio">
+                            </div>
+                            <div class="card-content">
+                                <h3>Best Outdoor Dining Spots for Pet Owners</h3>
+                                <p>Discover restaurants with amazing patios for you and your pet</p>
+                                <div class="card-meta">October 5, 2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="comments-section">
+                    <h3 class="section-title">Comments (3)</h3>
+                    
+                    <div class="comment-form">
+                        <h4>Leave a Comment</h4>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" class="input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment</label>
+                                <textarea id="comment" class="input" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Post Comment</button>
+                        </form>
+                    </div>
+                    
+                    <div class="comments-list">
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span class="comment-author">Michael Thompson</span>
+                                <span class="comment-date">October 16, 2023</span>
+                            </div>
+                            <div class="comment-body">
+                                Great list! I've been to three of these restaurants with my golden retriever, and they were all fantastic experiences. The staff at The Barking Lot Bistro even brought out a special water bowl with ice cubes - my dog loved it!
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span class="comment-author">Jessica Williams</span>
+                                <span class="comment-date">October 17, 2023</span>
+                            </div>
+                            <div class="comment-body">
+                                Thanks for this comprehensive guide! I'm new to the city and have been struggling to find places where I can bring my small dog. Can't wait to try Paws & Plates this weekend. Do you know if they require reservations for the outdoor seating?
+                            </div>
+                        </div>
+                        
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span class="comment-author">Robert Chen</span>
+                                <span class="comment-date">October 18, 2023</span>
+                            </div>
+                            <div class="comment-body">
+                                I'd also recommend adding "The Dog House Cafe" in Queens to your list. They have an entire menu dedicated to dogs, including puppy ice cream and organic treats. My pug goes crazy for their peanut butter biscuits!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 社交分享 -->
+                <div class="social-share">
+                    <span>Share this article:</span>
+                    <a href="#" class="share-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="share-btn twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="share-btn pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+            
+            <!-- 推荐文章侧边栏 -->
+            <div class="recommended-sidebar">
+                <h3 class="section-title">Recommended Guides</h3>
+                <div class="recommended-articles">
+                    <div class="article-card">
+                        <div class="card-image">
+                            <img src="https://s.coze.cn/image/QDXlYt05UqA/" alt="Dog with menu">
+                        </div>
+                        <div class="card-content">
+                            <h3>Understanding Pet-Friendly Restaurant Policies</h3>
+                            <p>What to look for when choosing a restaurant for you and your pet</p>
+                            <div class="card-meta">September 20, 2023</div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="card-image">
+                            <img src="https://s.coze.cn/image/6Zuoc-3LAaE/" alt="Cat at restaurant">
+                        </div>
+                        <div class="card-content">
+                            <h3>Is Your Cat Restaurant-Ready?</h3>
+                            <p>Tips for taking your feline friend out to eat</p>
+                            <div class="card-meta">October 2, 2023</div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="card-image">
+                            <img src="https://s.coze.cn/image/ytj4CPqIB2Q/" alt="Dog drinking water">
+                        </div>
+                        <div class="card-content">
+                            <h3>Essential Items to Bring When Dining with Pets</h3>
+                            <p>Don't forget these must-haves for a smooth dining experience</p>
+                            <div class="card-meta">October 10, 2023</div>
+                        </div>
+                    </div>
+                    
+                    <div class="article-card">
+                        <div class="card-image">
+                            <img src="https://s.coze.cn/image/b52bh9nWoFo/" alt="Multiple pets">
+                        </div>
+                        <div class="card-content">
+                            <h3>Pet-Friendly Chains You Need to Know</h3>
+                            <p>National restaurants that welcome pets at locations nationwide</p>
+                            <div class="card-meta">October 12, 2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚（完全同步 user_center.html 结构和样式） -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <iconify-icon class="footer-logo-icon" icon="noto:paw-prints"></iconify-icon>
+                    <span class="footer-logo-text">PetFriendly</span>
+                </div>
+                <p class="footer-desc">
+                    Connecting pet lovers with pet-friendly establishments since 2025
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:facebook"></iconify-icon></a>
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:instagram"></iconify-icon></a>
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:twitter"></iconify-icon></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Information</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><iconify-icon icon="mdi:information-outline" class="text-[#FFD700]"></iconify-icon> About Us</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:headphones-outline" class="text-[#FFD700]"></iconify-icon> Contact Support</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:file-document-outline" class="text-[#FFD700]"></iconify-icon> Terms of Service</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:shield-outline" class="text-[#FFD700]"></iconify-icon> Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Community</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><iconify-icon icon="mdi:book-open-outline" class="text-[#FFD700]"></iconify-icon> Pet Stories</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:calendar-outline" class="text-[#FFD700]"></iconify-icon> Meetups &amp; Events</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:comment-outline" class="text-[#FFD700]"></iconify-icon> Forum Discussions</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:heart-outline" class="text-[#FFD700]"></iconify-icon> Pet Adoption</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>support@petfriendly.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>(123) 456-7890</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Petville, CA 90210</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 PetFriendly Community. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.app-header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.style.boxShadow = 'var(--shadow-hover)';
+                } else {
+                    header.style.boxShadow = 'var(--shadow-normal)';
+                }
+            });
+
+            // 移动端菜单切换（适配响应式）
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
