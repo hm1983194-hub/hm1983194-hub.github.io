@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pawfect Dining Community - User Center</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+    /* 字体引入 */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    /* CSS变量定义 - 色彩系统 */
+    :root {
+      /* 主色调 */
+      --primary: #FFB347;
+      --primary-light: #FFE0B2;
+      --primary-dark: #FF9800;
+      
+      /* 辅助色 */
+      --success: #8BC34A;
+      --warning: #FFA726;
+      --error: #F44336;
+      --info: #9E9E9E;
+      
+      /* 中性色 - 背景 */
+      --bg-page: #FFF8F0;
+      --bg-card: #FFFFFF;
+      --bg-secondary: #FFF3E0;
+      
+      /* 中性色 - 文本 */
+      --text-primary: #3E2723;
+      --text-secondary: #5D4037;
+      --text-tertiary: #8D6E63;
+      --text-disabled: #BCAAA4;
+      
+      /* 中性色 - 边框 */
+      --border-normal: #D7CCC8;
+      --border-light: #EFEBE9;
+      --border-disabled: #BCAAA4;
+      
+      /* 阴影 */
+      --shadow-normal: 0 2px 12px rgba(255, 179, 71, 0.12);
+      --shadow-hover: 0 4px 20px rgba(255, 179, 71, 0.16);
+      --shadow-modal: 0 8px 32px rgba(255, 179, 71, 0.2);
+    }
+    
+    /* 全局样式重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* 基础样式 */
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Inter", "Helvetica Neue", "Arial", sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+    
+    /* 字体层级 */
+    h1 {
+      font-size: 28px;
+      line-height: 40px;
+      font-weight: 700;
+    }
+    
+    h2 {
+      font-size: 24px;
+      line-height: 36px;
+      font-weight: 600;
+    }
+    
+    h3 {
+      font-size: 20px;
+      line-height: 32px;
+      font-weight: 600;
+    }
+    
+    .text-large {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 400;
+    }
+    
+    body {
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+    }
+    
+    .text-small {
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 400;
+    }
+    
+    /* 顶部导航栏 */
+    .app-header {
+      height: 64px;
+      background-color: var(--bg-card);
+      box-shadow: var(--shadow-normal);
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* 侧边栏 */
+    .sidebar {
+      width: 200px;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* 卡片样式 */
+    .content-card {
+      background-color: var(--bg-card);
+      border-radius: 12px;
+      box-shadow: var(--shadow-normal);
+      padding: 16px;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* 标签样式 */
+    .tab-item {
+      border: none;
+      background: none;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      color: var(--text-secondary);
+    }
+    
+    .active-tab {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    
+    .tab-item:hover:not(.active-tab) {
+      background-color: var(--bg-secondary);
+    }
+    
+    /* 餐厅卡片 */
+    .restaurant-card {
+      border-radius: 12px;
+      transition: all 0.3s ease-in-out;
+      border: 1px solid var(--border-light);
+    }
+    
+    .restaurant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    /* 图标样式 */
+    .pet-icon {
+      background-color: var(--primary);
+      border-radius: 50%;
+      padding: 10px;
+      display: inline-flex;
+    }
+    
+    /* 输入框样式 */
+    input, select, textarea {
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 12px 16px;
+      height: 40px;
+      color: var(--text-primary);
+      transition: all 0.3s ease-in-out;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255, 179, 71, 0.2);
+    }
+    
+    input::placeholder {
+      color: var(--text-disabled);
+    }
+    
+    input:disabled, select:disabled, textarea:disabled {
+      background-color: var(--border-light);
+      border-color: var(--border-disabled);
+      color: var(--text-disabled);
+    }
+    
+    /* 按钮样式 */
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      border-radius: 8px;
+      padding: 0 20px;
+      height: 44px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .btn-primary:active {
+      background-color: var(--primary-dark);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary:disabled {
+      background-color: var(--border-light);
+      color: var(--text-disabled);
+      cursor: not-allowed;
+    }
+    
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      padding: 0 20px;
+      height: 44px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      font-weight: 500;
+    }
+    
+    .btn-text:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    
+    /* 按钮尺寸 */
+    .btn-large {
+      height: 52px;
+      padding: 0 24px;
+    }
+    
+    .btn-small {
+      height: 36px;
+      padding: 0 16px;
+      font-size: 12px;
+    }
+    
+    /* 评分星星 */
+    .rating-star {
+      color: var(--primary);
+    }
+    
+    /* 辅助文本 */
+    .text-secondary {
+      color: var(--text-secondary);
+    }
+    
+    .text-tertiary {
+      color: var(--text-tertiary);
+    }
+    
+    .text-disabled {
+      color: var(--text-disabled);
+    }
+    
+    /* 边框样式 */
+    .border-normal {
+      border-color: var(--border-normal);
+    }
+    
+    .border-light {
+      border-color: var(--border-light);
+    }
+    
+    /* 链接样式 */
+    a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+    }
+    
+    a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+<!-- 顶部导航栏 -->
+<header class="app-header fixed top-0 left-0 right-0 z-50 flex items-center px-6">
+<div class="flex items-center">
+<iconify-icon class="text-3xl mr-2 text-[var(--primary)]" icon="noto:paw-prints"></iconify-icon>
+<span class="text-xl font-bold text-[var(--text-primary)]">Pawfect Dining</span>
+</div>
+<!-- 顶部标签 -->
+<nav class="ml-12 flex space-x-8">
+<a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="listing.html">RESTAURANT</a>
+<a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="community.html">COMMUNITY</a>
+<a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="recommendations.html">RECOMMENDATIONS</a>
+<a class="font-medium text-[var(--primary)] border-b-2 border-[var(--primary)] pb-1" href="user_center.html">USER CENTER</a>
+<a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium" href="website_information.html">INFORMATION</a>
+</nav>
+<div class="ml-auto flex items-center">
+<iconify-icon class="text-2xl mr-6 text-[var(--text-secondary)]" icon="mdi:bell-outline"></iconify-icon>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+<img alt="User Profile" class="w-full h-full object-cover" id="1" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg"/>
+</div>
+<span class="font-medium">PetLover88</span>
+</div>
+</div>
+</header>
+<!-- 主内容区 -->
+<main class="container mx-auto px-4 pt-24 pb-12 max-w-7xl">
+<!-- 用户头像与信息 -->
+<div class="flex items-center mb-12 bg-[var(--bg-card)] rounded-lg p-6 content-card">
+<div class="mr-6 relative">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[var(--primary)]">
+<img alt="User Avatar" class="w-full h-full object-cover" id="2" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/367e86133180490ab784d40706778d50.jpg"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-[var(--bg-card)] rounded-full p-2 border border-[var(--border-light)] transition-all duration-300 ease-in-out hover:border-[var(--primary)]">
+<iconify-icon class="text-[var(--primary)]" icon="mdi:camera-outline"></iconify-icon>
+</button>
+</div>
+<div>
+<h1>PetLover88</h1>
+<div class="flex items-center mb-3">
+<span class="bg-[var(--primary-light)] text-[var(--text-secondary)] px-3 py-1 rounded-full text-sm font-medium mr-3">
+            Gold Member
+          </span>
+<div class="flex">
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--text-disabled)]" icon="clarity:star-solid"></iconify-icon>
+</div>
+</div>
+<p class="text-[var(--text-tertiary)]">
+          Joined on: 2025年11月05日 | Last login: Today
+        </p>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-6">
+<!-- 侧边栏菜单 -->
+<nav class="sidebar lg:flex lg:flex-col bg-[var(--bg-card)] rounded-lg overflow-hidden content-card h-min">
+<button class="tab-item active-tab flex items-center px-6 py-4" id="favoritesTab">
+<iconify-icon class="text-xl mr-3 text-[var(--text-primary)]" icon="mdi:heart-outline"></iconify-icon>
+<span>My Favorites</span>
+</button>
+<button class="tab-item flex items-center px-6 py-4" id="reviewsTab">
+<iconify-icon class="text-xl mr-3 text-[var(--text-secondary)]" icon="mdi:comment-outline"></iconify-icon>
+<span>My Reviews</span>
+</button>
+<button class="tab-item flex items-center px-6 py-4" id="restaurantsTab">
+<iconify-icon class="text-xl mr-3 text-[var(--text-secondary)]" icon="mdi:silverware"></iconify-icon>
+<span>Restaurants I Added</span>
+</button>
+<button class="tab-item flex items-center px-6 py-4" id="settingsTab">
+<iconify-icon class="text-xl mr-3 text-[var(--text-secondary)]" icon="mdi:cog-outline"></iconify-icon>
+<span>Account Settings</span>
+</button>
+</nav>
+<!-- 内容区域 -->
+<div class="flex-1">
+<!-- 我的收藏 -->
+<div class="content-panel bg-[var(--bg-card)] rounded-lg p-6 content-card" id="favoritesPanel">
+<h2>My Favorite Restaurants</h2>
+<div class="space-y-6">
+<!-- 餐厅卡片 1 -->
+<div class="restaurant-card flex border border-[var(--border-light)] rounded-12 transition-all p-4">
+<div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
+<img alt="Paws &amp; Plates Restaurant" class="w-full h-full object-cover" id="3" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/92e75572fbb8424b94580814de101569.jpg"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h3>Paws &amp; Plates</h3>
+<span class="text-[var(--text-tertiary)] text-small">Added: 2025年11月05日</span>
+</div>
+<div class="flex items-center mb-2">
+<div class="rating-star flex">
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+</div>
+<span class="ml-2 font-medium">4.8 (127 reviews)</span>
+</div>
+<p class="text-[var(--text-secondary)] mb-3">Pet-friendly cafe with outdoor seating and special pet menu items.</p>
+<div class="flex">
+<button class="btn-primary px-4 py-2 rounded-8 text-sm font-medium mr-2">View Details</button>
+<button class="btn-text flex items-center text-[var(--text-secondary)] hover:text-[var(--primary)]">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                    Remove
+                  </button>
+</div>
+</div>
+</div>
+<!-- 餐厅卡片 2 -->
+<div class="restaurant-card flex border border-[var(--border-light)] rounded-12 transition-all p-4">
+<div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
+<img alt="The Barkery Cafe" class="w-full h-full object-cover" id="4" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/b20c87b08fbb4d458f2954b9a4441609.jpg"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between">
+<h3>The Barkery Cafe</h3>
+<span class="text-[var(--text-tertiary)] text-small">Added: 2025年11月05日</span>
+</div>
+<div class="flex items-center mb-2">
+<div class="rating-star flex">
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--text-disabled)]" icon="clarity:star-solid"></iconify-icon>
+</div>
+<span class="ml-2 font-medium">4.3 (89 reviews)</span>
+</div>
+<p class="text-[var(--text-secondary)] mb-3">Cozy bakery with specialty pet treats and dedicated play area.</p>
+<div class="flex">
+<button class="btn-primary px-4 py-2 rounded-8 text-sm font-medium mr-2">View Details</button>
+<button class="btn-text flex items-center text-[var(--text-secondary)] hover:text-[var(--primary)]">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                    Remove
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 我的评价 -->
+<div class="content-panel hidden bg-[var(--bg-card)] rounded-lg p-6 content-card" id="reviewsPanel">
+<h2>My Reviews</h2>
+<div class="space-y-6">
+<!-- 评价 1 -->
+<div class="border-b border-[var(--border-light)] pb-6">
+<div class="flex justify-between mb-3">
+<h3>Paws &amp; Plates</h3>
+<span class="text-[var(--text-tertiary)]">Reviewed on: 2025年11月05日</span>
+</div>
+<div class="flex items-center mb-2">
+<div class="rating-star flex">
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+</div>
+</div>
+<p class="text-[var(--text-secondary)] mb-4">Absolutely loved this place! My golden retriever enjoyed their special doggy menu while I had a delicious brunch. The staff were incredibly pet-friendly.</p>
+<div class="flex">
+<button class="btn-primary px-4 py-2 rounded-8 text-sm font-medium mr-2">
+<iconify-icon class="mr-1" icon="mdi:pencil-outline"></iconify-icon>
+                  Edit
+                </button>
+<button class="flex items-center bg-[var(--error)]/10 text-[var(--error)] px-4 py-2 rounded-8 text-sm font-medium transition-all duration-300 hover:bg-[var(--error)]/20">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                  Delete
+                </button>
+</div>
+</div>
+<!-- 评价 2 -->
+<div class="border-b border-[var(--border-light)] pb-6">
+<div class="flex justify-between mb-3">
+<h3>The Barkery Cafe</h3>
+<span class="text-[var(--text-tertiary)]">Reviewed on: 2025年11月05日</span>
+</div>
+<div class="flex items-center mb-2">
+<div class="rating-star flex">
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--primary)]" icon="clarity:star-solid"></iconify-icon>
+<iconify-icon class="text-[var(--text-disabled)]" icon="clarity:star-solid"></iconify-icon>
+</div>
+</div>
+<p class="text-[var(--text-secondary)] mb-4">Great selection of homemade dog treats. My pug couldn't get enough of their peanut butter biscuits! The outdoor seating area is perfect for sunny days.</p>
+<div class="flex">
+<button class="btn-primary px-4 py-2 rounded-8 text-sm font-medium mr-2">
+<iconify-icon class="mr-1" icon="mdi:pencil-outline"></iconify-icon>
+                  Edit
+                </button>
+<button class="flex items-center bg-[var(--error)]/10 text-[var(--error)] px-4 py-2 rounded-8 text-sm font-medium transition-all duration-300 hover:bg-[var(--error)]/20">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                  Delete
+                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 我添加的餐厅 -->
+<div class="content-panel hidden bg-[var(--bg-card)] rounded-lg p-6 content-card" id="restaurantsPanel">
+<div class="flex justify-between items-center mb-6">
+<h2>Restaurants I Added</h2>
+<button class="btn-primary px-6 py-3 rounded-8 font-medium flex items-center btn-large">
+<iconify-icon class="mr-1" icon="mdi:plus"></iconify-icon>
+              Add New Restaurant
+            </button>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+<!-- 餐厅卡片 1 -->
+<div class="restaurant-card border border-[var(--border-light)] rounded-12 p-4 transition-all">
+<div class="flex">
+<div class="w-20 h-20 rounded-lg overflow-hidden mr-4">
+<img alt="Bella's Bowl" class="w-full h-full object-cover" id="5" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/e2579676dcd447de8fab57e6bff600cf.jpg"/>
+</div>
+<div class="flex-1">
+<h3>Bella's Bowl</h3>
+<div class="flex items-center mt-1">
+<span class="mr-2">Approval:</span>
+<div class="bg-[var(--success)]/10 text-[var(--success)] px-2 py-1 rounded-full text-xs">
+                      Approved
+                    </div>
+</div>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-[var(--border-light)]">
+<div class="flex text-sm text-[var(--text-tertiary)]">
+<div class="mr-3 flex items-center">
+<iconify-icon class="mr-1" icon="mdi:calendar"></iconify-icon>
+                    Added: 2025年11月05日
+                  </div>
+<div class="flex items-center">
+<iconify-icon class="mr-1" icon="mdi:paw"></iconify-icon>
+                    32 pets
+                  </div>
+</div>
+<div class="flex justify-end mt-3">
+<button class="btn-text flex items-center mr-4">
+<iconify-icon class="mr-1" icon="mdi:pencil-outline"></iconify-icon>
+                    Edit
+                  </button>
+<button class="flex items-center text-[var(--error)] hover:text-[var(--error)]/80 transition-colors">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                    Delete
+                  </button>
+</div>
+</div>
+</div>
+<!-- 餐厅卡片 2 -->
+<div class="restaurant-card border border-[var(--border-light)] rounded-12 p-4 transition-all">
+<div class="flex">
+<div class="w-20 h-20 rounded-lg overflow-hidden mr-4">
+<img alt="Whiskers Bistro" class="w-full h-full object-cover" id="6" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/3f86ae742e9045aaa04d11ee15a7a5e4.jpg"/>
+</div>
+<div class="flex-1">
+<h3>Whiskers Bistro</h3>
+<div class="flex items-center mt-1">
+<span class="mr-2">Approval:</span>
+<div class="bg-[var(--info)]/10 text-[var(--info)] px-2 py-1 rounded-full text-xs">
+                      Pending
+                    </div>
+</div>
+</div>
+</div>
+<div class="mt-3 pt-3 border-t border-[var(--border-light)]">
+<div class="flex text-sm text-[var(--text-tertiary)]">
+<div class="mr-3 flex items-center">
+<iconify-icon class="mr-1" icon="mdi:calendar"></iconify-icon>
+                    Added: 2025年11月05日
+                  </div>
+<div class="flex items-center">
+<iconify-icon class="mr-1" icon="mdi:paw"></iconify-icon>
+                    0 pets
+                  </div>
+</div>
+<div class="flex justify-end mt-3">
+<button class="btn-text flex items-center mr-4">
+<iconify-icon class="mr-1" icon="mdi:pencil-outline"></iconify-icon>
+                    Edit
+                  </button>
+<button class="flex items-center text-[var(--error)] hover:text-[var(--error)]/80 transition-colors">
+<iconify-icon class="mr-1" icon="mdi:delete-outline"></iconify-icon>
+                    Delete
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 账户设置 -->
+<div class="content-panel hidden bg-[var(--bg-card)] rounded-lg p-6 content-card" id="settingsPanel">
+<h2 class="mb-6">Account Settings</h2>
+<form class="space-y-8">
+<!-- 基本资料 -->
+<div class="border-b border-[var(--border-light)] pb-6">
+<h3 class="mb-4">Profile Information</h3>
+<div class="flex items-center mb-6">
+<div class="mr-6 relative">
+<div class="w-20 h-20 rounded-full overflow-hidden border border-[var(--border-light)]">
+<img alt="User Profile Picture" class="w-full h-full object-cover" id="7" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/9a7339dc31d34fdcb5b7e5d269a8325e.jpg"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-[var(--bg-card)] rounded-full p-2 border border-[var(--border-light)] text-[var(--text-primary)] transition-all duration-300 hover:bg-[var(--primary-light)]" type="button">
+<iconify-icon icon="mdi:camera-outline"></iconify-icon>
+</button>
+</div>
+<div>
+<button class="bg-[var(--primary-light)] text-[var(--text-primary)] px-4 py-2 rounded-8 text-sm font-medium mr-2 transition-all duration-300 hover:bg-[var(--primary-light)]/80" type="button">
+                    Change Photo
+                  </button>
+<button class="text-[var(--text-secondary)] px-4 py-2 rounded-8 text-sm font-medium btn-text" type="button">
+                    Remove
+                  </button>
+</div>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium mb-2 text-[var(--text-secondary)]">First Name</label>
+<input class="w-full border border-[var(--border-light)] rounded-8 p-3 bg-[var(--bg-secondary)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] transition-all duration-300" type="text" value="Pet"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2 text-[var(--text-secondary)]">Last Name</label>
+<input class="w-full border border-[var(--border-light)] rounded-8 p-3 bg-[var(--bg-secondary)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] transition-all duration-300" type="text" value="Lover"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Username</label>
+<input class="w-full border rounded-lg p-3" type="text" value="PetLover88"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Email Address</label>
+<input class="w-full border rounded-lg p-3" type="email" value="pet.lover@example.com"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Phone Number</label>
+<input class="w-full border rounded-lg p-3" type="tel" value="+1 (555) 123-4567"/>
+</div>
+</div>
+</div>
+<!-- 密码修改 -->
+<div class="border-b pb-6">
+<h3 class="text-lg font-bold mb-4">Password</h3>
+<div class="grid md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-medium mb-2">Current Password</label>
+<input class="w-full border rounded-lg p-3" type="password"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">New Password</label>
+<input class="w-full border rounded-lg p-3" type="password"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2">Confirm New Password</label>
+<input class="w-full border rounded-lg p-3" type="password"/>
+</div>
+</div>
+</div>
+<!-- 通知设置 -->
+<div>
+<h3 class="mb-4">Notifications</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<label class="block font-medium text-[var(--text-primary)]">Email Notifications</label>
+<p class="text-sm text-[var(--text-tertiary)]">Receive updates via email</p>
+</div>
+<input class="w-10 h-5 bg-[var(--primary)] rounded-full appearance-none cursor-pointer relative transition-all duration-300" type="checkbox" checked/>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<label class="block font-medium text-[var(--text-primary)]">Push Notifications</label>
+<p class="text-sm text-[var(--text-tertiary)]">Receive updates via app notifications</p>
+</div>
+<input class="w-10 h-5 bg-[var(--primary)] rounded-full appearance-none cursor-pointer relative transition-all duration-300" type="checkbox" checked/>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<label class="block font-medium text-[var(--text-primary)]">SMS Notifications</label>
+<p class="text-sm text-[var(--text-tertiary)]">Receive updates via text message</p>
+</div>
+<input class="w-10 h-5 bg-[var(--border-light)] rounded-full appearance-none cursor-pointer relative transition-all duration-300" type="checkbox"/>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<button class="btn-primary px-6 py-3 rounded-8 font-medium btn-large transition-all duration-300 hover:bg-[var(--primary-dark)] active:shadow-inner" type="submit">Save Changes</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- 页脚 -->
+<footer class="bg-[#333] text-white py-8">
+<div class="container mx-auto px-4">
+<div class="grid md:grid-cols-4 gap-8">
+<div>
+<div class="flex items-center mb-4">
+<iconify-icon class="text-3xl text-[#FFD700] mr-2" icon="noto:paw-prints"></iconify-icon>
+<span class="text-xl font-bold text-white">PetFriendly</span>
+</div>
+<p class="text-[#aaa] mb-4">
+            Connecting pet lovers with pet-friendly establishments since 2025
+          </p>
+<div class="flex space-x-4">
+<a class="text-[#aaa] hover:text-[#FFD700] transition-colors duration-300" href="#">
+<iconify-icon class="text-xl" icon="mdi:facebook"></iconify-icon>
+</a>
+<a class="text-[#aaa] hover:text-[#FFD700] transition-colors duration-300" href="#">
+<iconify-icon class="text-xl" icon="mdi:instagram"></iconify-icon>
+</a>
+<a class="text-[#aaa] hover:text-[#FFD700] transition-colors duration-300" href="#">
+<iconify-icon class="text-xl" icon="mdi:twitter"></iconify-icon>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-white">Information</h4>
+<ul class="space-y-2 text-[#aaa]">
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">About Us</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Contact Support</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Terms of Service</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-white">Community</h4>
+<ul class="space-y-2 text-[#aaa]">
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Pet Stories</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Meetups &amp; Events</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Forum Discussions</a></li>
+<li><a class="hover:text-[#FFD700] transition-colors duration-300" href="#">Pet Adoption</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-white">Contact Us</h4>
+<ul class="space-y-2 text-[#aaa]">
+<li class="flex items-center">
+<iconify-icon class="mr-2 text-[#FFD700]" icon="mdi:email-outline"></iconify-icon>
+              support@petfriendly.com
+            </li>
+<li class="flex items-center">
+<iconify-icon class="mr-2 text-[#FFD700]" icon="mdi:phone-outline"></iconify-icon>
+              (123) 456-7890
+            </li>
+<li class="flex items-center">
+<iconify-icon class="mr-2 text-[#FFD700]" icon="mdi:map-marker-outline"></iconify-icon>
+              Petville, CA 90210
+            </li>
+</ul>
+</div>
+</div>
+<div class="border-t border-[#444] mt-8 pt-6 text-center text-[#aaa]">
+        © 2025 PetFriendly Community. All rights reserved.
+      </div>
+</div>
+</footer>
+<script>
+    // 标签切换功能
+    const tabs = {
+      favorites: { tab: 'favoritesTab', panel: 'favoritesPanel' },
+      reviews: { tab: 'reviewsTab', panel: 'reviewsPanel' },
+      restaurants: { tab: 'restaurantsTab', panel: 'restaurantsPanel' },
+      settings: { tab: 'settingsTab', panel: 'settingsPanel' }
+    };
+    
+    // 初始化设置默认激活标签
+    let currentTab = 'favorites';
+    
+    function switchTab(tabName) {
+      // 移除所有活动标签状态
+      Object.keys(tabs).forEach(key => {
+        document.getElementById(tabs[key].tab).classList.remove('active-tab');
+        document.getElementById(tabs[key].panel).classList.add('hidden');
+      });
+      
+      // 激活当前标签和面板
+      document.getElementById(tabs[tabName].tab).classList.add('active-tab');
+      document.getElementById(tabs[tabName].panel).classList.remove('hidden');
+      
+      currentTab = tabName;
+    }
+    
+    // 添加事件监听器
+    document.getElementById('favoritesTab').addEventListener('click', () => switchTab('favorites'));
+    document.getElementById('reviewsTab').addEventListener('click', () => switchTab('reviews'));
+    document.getElementById('restaurantsTab').addEventListener('click', () => switchTab('restaurants'));
+    document.getElementById('settingsTab').addEventListener('click', () => switchTab('settings'));
+    
+    // 初始化显示收藏页
+    document.addEventListener('DOMContentLoaded', () => {
+      switchTab('favorites');
+    });
+  </script>
+</body>
+</html>
