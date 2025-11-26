@@ -566,7 +566,7 @@
         <div class="container">
             <!-- 面包屑导航 -->
             <div class="breadcrumb">
-                <a href="index">Home</a>
+                <a href="index.html">Home</a>
                 <span class="separator">/</span>
                 <a href="listing">Restaurants</a>
                 <span class="separator">/</span>
