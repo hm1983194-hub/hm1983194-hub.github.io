@@ -482,7 +482,7 @@
     </main>
 
     <!-- Footer Contact Bar -->
-    {% include footer.html %}
+    {% include footer %}
 
     <!-- JavaScript -->
     <script>
