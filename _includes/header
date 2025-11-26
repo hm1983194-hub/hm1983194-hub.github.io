@@ -1,0 +1,24 @@
+<!-- 顶部导航栏 -->
+<header class="app-header fixed top-0 left-0 right-0 z-50 flex items-center px-6" style="height: 64px; background-color: var(--bg-card); box-shadow: var(--shadow-normal);">
+    <div class="flex items-center">
+        <iconify-icon class="text-3xl mr-2 text-[var(--primary)]" icon="noto:paw-prints"></iconify-icon>
+        <span class="text-xl font-bold text-[var(--text-primary)]">Pawfect Dining</span>
+    </div>
+    <!-- 顶部标签 -->
+    <nav class="ml-12 flex space-x-8">
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="listing">RESTAURANT</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="community">COMMUNITY</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="recommendation">RECOMMENDATIONS</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="user_center">USER CENTER</a>
+        <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="website_information">INFORMATION</a>
+    </nav>
+    <div class="ml-auto flex items-center">
+        <iconify-icon class="text-2xl mr-6 text-[var(--text-secondary)] cursor-pointer hover:text-[var(--primary)] transition-colors duration-300" icon="mdi:bell-outline"></iconify-icon>
+        <div class="flex items-center">
+            <div class="w-8 h-8 rounded-full overflow-hidden mr-2">
+                <img alt="User Profile" class="w-full h-full object-cover" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg"/>
+            </div>
+            <span class="font-medium">PetLover88</span>
+        </div>
+    </div>
+</header>
