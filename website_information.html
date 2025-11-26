@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pawfect Dining - About Us</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<style>
+    /* 引入字体 */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    /* CSS变量定义 - 色彩系统 */
+    :root {
+      /* 主色调 */
+      --primary: #FFB347;
+      --primary-light: #FFE0B2;
+      --primary-dark: #FF9800;
+      --primary-opacity: rgba(255, 179, 71, 0.8);
+      
+      /* 辅助色 */
+      --success: #8BC34A;
+      --warning: #FFA726;
+      --error: #F44336;
+      --info: #9E9E9E;
+      
+      /* 中性色 - 背景 */
+      --bg-primary: #FFF8F0;
+      --bg-card: #FFFFFF;
+      --bg-secondary: #FFF3E0;
+      
+      /* 中性色 - 文本 */
+      --text-primary: #3E2723;
+      --text-secondary: #5D4037;
+      --text-tertiary: #8D6E63;
+      --text-disabled: #BCAAA4;
+      
+      /* 中性色 - 边框 */
+      --border-normal: #D7CCC8;
+      --border-light: #EFEBE9;
+      --border-disabled: #BCAAA4;
+      
+      /* 阴影 */
+      --shadow-card: 0 2px 12px rgba(255, 179, 71, 0.12);
+      --shadow-hover: 0 4px 20px rgba(255, 179, 71, 0.16);
+      --shadow-modal: 0 8px 32px rgba(255, 179, 71, 0.2);
+      
+      /* 尺寸 */
+      --max-width: 1200px;
+      --border-radius: 12px;
+      --button-radius: 8px;
+      --spacer-1: 8px;
+      --spacer-2: 16px;
+      --spacer-3: 24px;
+      --spacer-4: 32px;
+      --spacer-6: 48px;
+    }
+    
+    /* 全局样式 */
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Inter", "Helvetica Neue", "Arial", sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      scroll-behavior: smooth;
+      line-height: 1.5;
+    }
+    
+    /* 排版 */
+    h1 {
+      font-size: 28px;
+      line-height: 40px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    
+    h2 {
+      font-size: 24px;
+      line-height: 36px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    h3 {
+      font-size: 20px;
+      line-height: 32px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    p {
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--text-secondary);
+    }
+    
+    p.large {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    
+    p.small {
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--text-tertiary);
+    }
+    
+    /* 布局 */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--spacer-2);
+    }
+    
+    /* 导航栏 */
+    .app-header {
+      height: 64px;
+      background-color: var(--bg-card);
+      box-shadow: var(--shadow-card);
+    }
+    
+    /* Hero区域 */
+    .hero-pattern {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+    
+    /* 卡片样式 */
+    .content-card {
+      background-color: var(--bg-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-card);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    /* 导航样式 */
+    .active-nav {
+      border-bottom: 3px solid var(--primary);
+      color: var(--text-primary);
+    }
+    
+    /* 高亮文本 */
+    .highlight-yellow {
+      color: var(--primary);
+    }
+    
+    /* 时间线 */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: -15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* 图标背景 */
+    .pet-icon-bg {
+      background-color: rgba(255, 179, 71, 0.1);
+      border-radius: 50%;
+      padding: 15px;
+    }
+    
+    /* 按钮样式 */
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      font-weight: 500;
+      border: none;
+      border-radius: var(--button-radius);
+      padding: 0 24px;
+      height: 44px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-primary:active {
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      font-weight: 500;
+      border-radius: var(--button-radius);
+      padding: 0 24px;
+      height: 44px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .btn-text {
+      background-color: transparent;
+      color: var(--primary);
+      border: none;
+      font-weight: 500;
+      padding: 0 16px;
+      height: 44px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    .btn-text:hover {
+      color: var(--primary-dark);
+    }
+    
+    .btn-large {
+      height: 52px;
+      padding: 0 32px;
+    }
+    
+    .btn-small {
+      height: 36px;
+      padding: 0 16px;
+      font-size: 14px;
+    }
+    
+    /* 输入框样式 */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    textarea {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--button-radius);
+      padding: 0 16px;
+      height: 40px;
+      font-size: 14px;
+      color: var(--text-primary);
+      transition: all 0.3s ease-in-out;
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="password"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255, 179, 71, 0.2);
+    }
+    
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--text-disabled);
+    }
+    
+    textarea {
+      height: auto;
+      padding: 12px 16px;
+      resize: vertical;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+<!-- 顶部导航栏 -->
+<header class="app-header fixed top-0 left-0 right-0 z-50 flex items-center px-6">
+<div class="flex items-center">
+<iconify-icon class="text-3xl mr-2 text-[var(--primary)]" icon="noto:paw-prints"></iconify-icon>
+<span class="text-xl font-bold text-[var(--text-primary)]">Pawfect Dining</span>
+</div>
+<!-- 顶部标签 -->
+<nav class="ml-12 flex space-x-8">
+<a class="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="listing.html">RESTAURANT</a>
+<a class="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="community.html">COMMUNITY</a>
+<a class="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="recommendations.html">RECOMMENDATIONS</a>
+<a class="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] font-medium transition-colors duration-300" href="user_center.html">USER CENTER</a>
+<a class="font-medium text-[var(--text-primary)] pb-1 active-nav" href="#">INFORMATION</a>
+</nav>
+<div class="ml-auto flex items-center">
+<div class="flex items-center cursor-pointer transition-all duration-300 hover:opacity-80">
+<div class="w-8 h-8 rounded-full overflow-hidden mr-2 border border-[var(--border-light)]">
+<img alt="User Profile" class="w-full h-full object-cover" id="1" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/1b7cbb0eeede484ebed9a299d1e7cce3.jpg"/>
+</div>
+<span class="font-medium text-[var(--text-secondary)]">Login</span>
+</div>
+</div>
+</header>
+<!-- 主内容区 -->
+<main class="container mx-auto px-4 pt-32 pb-20">
+<!-- Hero区域 -->
+<section class="hero-pattern rounded-3xl p-12 text-center mb-16 relative overflow-hidden">
+<div class="absolute top-4 right-4">
+<iconify-icon class="text-6xl text-white opacity-20" icon="noto:dog-face"></iconify-icon>
+</div>
+<div class="absolute bottom-4 left-4">
+<iconify-icon class="text-6xl text-white opacity-20" icon="noto:cat-face"></iconify-icon>
+</div>
+<h1 class="text-5xl font-bold mb-6">Our Mission: Making Dining <span class="highlight-yellow">Pet-Friendly</span></h1>
+<p class="text-xl max-w-3xl mx-auto mb-8">
+        We believe every pet deserves to dine out with their humans. Since 2025, we've connected thousands of pet lovers with welcoming restaurants.
+      </p>
+<div class="flex justify-center space-x-6">
+<button class="bg-white text-[#333] px-8 py-3 rounded-full font-medium hover:bg-[#FFFACD]">
+          Join Our Community
+        </button>
+<button class="border-2 border-white text-white px-8 py-3 rounded-full font-medium hover:bg-white hover:text-[#333]">
+          Add Your Restaurant
+        </button>
+</div>
+</section>
+<!-- 关于我们 -->
+<section class="mb-20">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-3xl font-bold mb-6">About Pawfect Dining Community</h2>
+<p class="mb-4 leading-relaxed">
+            Founded in early 2025, Pawfect Dining was born from our team's frustration at finding quality dining spots welcoming to our furry companions. 
+            What started as a personal project quickly grew into a passionate community of over 50,000 pet lovers across the country.
+          </p>
+<p class="mb-6 leading-relaxed">
+            Our platform helps you discover verified pet-welcoming restaurants, share experiences with fellow pet owners, and connect with businesses that truly value
+            your four-legged family members.
+          </p>
+<div class="flex space-x-4">
+<div class="text-center p-4 rounded-12 bg-[var(--bg-card)] content-card">
+<div class="text-4xl font-bold text-[var(--primary)] mb-2">50K+</div>
+<div class="text-sm text-[var(--text-secondary)]">Active Members</div>
+</div>
+<div class="text-center p-4 rounded-12 bg-[var(--bg-card)] content-card">
+<div class="text-4xl font-bold text-[var(--primary)] mb-2">1.2K</div>
+<div class="text-sm text-[var(--text-secondary)]">Pet-Friendly Venues</div>
+</div>
+<div class="text-center p-4 rounded-12 bg-[var(--bg-card)] content-card">
+<div class="text-4xl font-bold text-[var(--primary)] mb-2">24/7</div>
+<div class="text-sm text-[var(--text-secondary)]">Support Available</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="rounded-12 overflow-hidden shadow-sm">
+<img alt="Dog enjoying meal at restaurant" class="w-full h-64 object-cover" id="2" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/b9e034f2bf76419da3f24655f688c22f.jpg"/>
+</div>
+<div class="rounded-12 overflow-hidden shadow-sm">
+<img alt="Cat relaxing at cafe" class="w-full h-64 object-cover" id="3" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/7c39eb1b3ac24b44878d42d6279defbe.jpg"/>
+</div>
+<div class="rounded-12 overflow-hidden col-span-2 shadow-sm">
+<img alt="Group of pets at outdoor dining" class="w-full h-48 object-cover" id="4" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/d1e889481c724ff89495ba362158cf7f.jpg"/>
+</div>
+</div>
+</div>
+</section>
+<!-- 核心价值与服务 -->
+<section class="mb-20">
+<h2 class="text-3xl font-bold text-center mb-16">Our Core Values</h2>
+<div class="grid md:grid-cols-3 gap-8">
+<div class="bg-[var(--bg-card)] p-8 rounded-12 content-card hover:shadow-lg transition-all duration-300">
+<div class="pet-icon-bg w-16 h-16 flex items-center justify-center mb-6">
+<iconify-icon class="text-3xl text-[var(--primary)]" icon="mdi:paw"></iconify-icon>
+</div>
+<h3>Pet-First Approach</h3>
+<p class="text-[var(--text-secondary)]">
+            We prioritize pet safety and comfort in every recommendation, with rigorous venue verification and community reviews.
+          </p>
+</div>
+<div class="bg-[var(--bg-card)] p-8 rounded-12 content-card hover:shadow-lg transition-all duration-300">
+<div class="pet-icon-bg w-16 h-16 flex items-center justify-center mb-6">
+<iconify-icon class="text-3xl text-[var(--primary)]" icon="mdi:account-group"></iconify-icon>
+</div>
+<h3>Community Driven</h3>
+<p class="text-[var(--text-secondary)]">
+            Our platform thrives on real experiences shared by thousands of pet owners who care about quality pet-friendly spaces.
+          </p>
+</div>
+<div class="bg-[var(--bg-card)] p-8 rounded-12 content-card hover:shadow-lg transition-all duration-300">
+<div class="pet-icon-bg w-16 h-16 flex items-center justify-center mb-6">
+<iconify-icon class="text-3xl text-[var(--primary)]" icon="mdi:silverware-variant"></iconify-icon>
+</div>
+<h3>Supporting Businesses</h3>
+<p class="text-[var(--text-secondary)]">
+            We help restaurants connect with a loyal customer base that values pet-inclusive spaces and services.
+          </p>
+</div>
+</div>
+</section>
+<!-- 发展历程 -->
+<section class="mb-20">
+<h2 class="text-3xl font-bold text-center mb-16">Our Journey</h2>
+<div class="relative">
+<!-- 时间线 -->
+<div class="absolute left-0 md:left-1/2 w-1 bg-[#eaeaea] h-full transform md:translate-x-[-50%]"></div>
+<!-- 事件点 -->
+<div class="relative z-10 mb-12 md:mb-20">
+<div class="md:grid md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<div class="bg-white p-6 rounded-xl content-card">
+<span class="inline-block px-4 py-1 bg-[#FFFACD] text-[#333] rounded-full text-sm mb-4">Founding</span>
+<h3 class="text-xl font-bold mb-2">February 2025</h3>
+<p class="text-[#666]">PetFriendly was founded with 5 friends who shared a common frustration about finding good pet-friendly restaurants in their city.</p>
+</div>
+</div>
+<div class="md:col-start-3 md:col-end-4"></div>
+</div>
+<div class="absolute left-[-7px] md:left-1/2 w-15 h-15 bg-white rounded-full border-4 border-[#FFD700] transform md:translate-x-[-50%] flex items-center justify-center">
+<iconify-icon class="text-[#FFD700]" icon="noto:seedling"></iconify-icon>
+</div>
+</div>
+<div class="relative z-10 mb-12 md:mb-20">
+<div class="md:grid md:grid-cols-2 gap-8 items-center">
+<div class="md:hidden"></div>
+<div class="md:col-start-2">
+<div class="bg-white p-6 rounded-xl content-card">
+<span class="inline-block px-4 py-1 bg-[#FFFACD] text-[#333] rounded-full text-sm mb-4">Community Growth</span>
+<h3 class="text-xl font-bold mb-2">August 2025</h3>
+<p class="text-[#666]">Reached 10,000 registered users with reviews for over 200 pet-friendly establishments across major cities.</p>
+</div>
+</div>
+</div>
+<div class="absolute left-[-7px] md:left-1/2 w-15 h-15 bg-white rounded-full border-4 border-[#FFD700] transform md:translate-x-[-50%] flex items-center justify-center">
+<iconify-icon class="text-[#FFD700]" icon="noto:person-raising-hand"></iconify-icon>
+</div>
+</div>
+<div class="relative z-10 mb-12 md:mb-20">
+<div class="md:grid md:grid-cols-2 gap-8 items-center">
+<div class="md:text-right">
+<div class="bg-white p-6 rounded-xl content-card">
+<span class="inline-block px-4 py-1 bg-[#FFFACD] text-[#333] rounded-full text-sm mb-4">App Launch</span>
+<h3 class="text-xl font-bold mb-2">March 2026</h3>
+<p class="text-[#666]">Released our mobile app making it even easier for pet owners to find and review pet-friendly restaurants on the go.</p>
+</div>
+</div>
+<div class="md:col-start-3 md:col-end-4"></div>
+</div>
+<div class="absolute left-[-7px] md:left-1/2 w-15 h-15 bg-white rounded-full border-4 border-[#FFD700] transform md:translate-x-[-50%] flex items-center justify-center">
+<iconify-icon class="text-[#FFD700]" icon="noto:mobile-phone"></iconify-icon>
+</div>
+</div>
+<div class="relative z-10">
+<div class="md:grid md:grid-cols-2 gap-8 items-center">
+<div class="md:hidden"></div>
+<div class="md:col-start-2">
+<div class="bg-white p-6 rounded-xl content-card">
+<span class="inline-block px-4 py-1 bg-[#FFFACD] text-[#333] rounded-full text-sm mb-4">National Expansion</span>
+<h3 class="text-xl font-bold mb-2">Present</h3>
+<p class="text-[#666]">Now featuring over 1,200 verified pet-friendly restaurants across the country with a growing community of 50,000+ pet lovers.</p>
+</div>
+</div>
+</div>
+<div class="absolute left-[-7px] md:left-1/2 w-15 h-15 bg-white rounded-full border-4 border-[#FFD700] transform md:translate-x-[-50%] flex items-center justify-center">
+<iconify-icon class="text-[#FFD700]" icon="noto:rocket"></iconify-icon>
+</div>
+</div>
+</div>
+</section>
+<!-- 团队成员 -->
+<section class="mb-20">
+<h2 class="text-3xl font-bold text-center mb-4">Meet Our Team</h2>
+<p class="text-center text-[var(--text-tertiary)] max-w-2xl mx-auto mb-16">
+        Passionate pet lovers working to create better dining experiences for all furry companions
+      </p>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- 成员 1 -->
+<div class="content-card bg-[var(--bg-card)] text-center p-8 rounded-12 hover:shadow-lg transition-all duration-300">
+<div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-[var(--primary-light)]">
+<img alt="Sarah Johnson - Founder" class="w-full h-full object-cover" id="5" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/7c042226d3714bf9bd066a38d84957a9.jpg"/>
+</div>
+<h3>Sarah Johnson</h3>
+<div class="text-[var(--primary)] mb-3">Founder &amp; CEO</div>
+<p class="text-[var(--text-secondary)] mb-4">
+            Golden Retriever enthusiast with 10+ years in community platforms.
+          </p>
+<div class="flex justify-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:linkedin"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:instagram"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:twitter"></iconify-icon>
+</div>
+</div>
+<!-- 成员 2 -->
+<div class="content-card bg-[var(--bg-card)] text-center p-8 rounded-12 hover:shadow-lg transition-all duration-300">
+<div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-[var(--primary-light)]">
+<img alt="Michael Chen - CTO" class="w-full h-full object-cover" id="6" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/a7fc48b3ea424298a1228ddafbdaff00.jpg"/>
+</div>
+<h3>Michael Chen</h3>
+<div class="text-[var(--primary)] mb-3">Chief Technology Officer</div>
+<p class="text-[var(--text-secondary)] mb-4">
+            Tech innovator and proud cat dad to three rescue kitties.
+          </p>
+<div class="flex justify-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:linkedin"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:github"></iconify-icon>
+</div>
+</div>
+<!-- 成员 3 -->
+<div class="content-card bg-[var(--bg-card)] text-center p-8 rounded-12 hover:shadow-lg transition-all duration-300">
+<div class="w-32 h-32 mx-auto rounded-full overflow-hidden mb-6 border-2 border-[var(--primary-light)]">
+<img alt="Emma Rodriguez - Community Lead" class="w-full h-full object-cover" id="7" src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0360a2d8acc24a318dfe32e8240304e3.jpg"/>
+</div>
+<h3>Emma Rodriguez</h3>
+<div class="text-[var(--primary)] mb-3">Community Manager</div>
+<p class="text-[var(--text-secondary)] mb-4">
+            Dog trainer and advocate for pet-inclusive public spaces.
+          </p>
+<div class="flex justify-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:instagram"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] mx-2 transition-colors duration-300" icon="mdi:twitter"></iconify-icon>
+</div>
+</div>
+</div>
+</section>
+<!-- 联系我们 -->
+<section class="mb-12">
+<div class="content-card p-12 bg-[var(--bg-secondary)] rounded-12">
+<div class="grid md:grid-cols-2 gap-12 items-center">
+<div>
+<h2>Get in Touch</h2>
+<p class="text-[var(--text-secondary)] mb-8 leading-relaxed">
+              Have questions, partnership inquiries, or suggestions to improve? Our team is always ready to chat with fellow pet enthusiasts.
+            </p>
+<div class="space-y-4">
+<div class="flex items-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] mr-3" icon="mdi:email-outline"></iconify-icon>
+<span class="text-[var(--text-secondary)]">support@pawfectdining.com</span>
+</div>
+<div class="flex items-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] mr-3" icon="mdi:phone-outline"></iconify-icon>
+<span class="text-[var(--text-secondary)]">(123) 456-7890</span>
+</div>
+<div class="flex items-center">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] mr-3" icon="mdi:map-marker-outline"></iconify-icon>
+<span class="text-[var(--text-secondary)]">123 Pet Avenue, Petville CA 90210</span>
+</div>
+</div>
+</div>
+<div>
+<form class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<input type="text" placeholder="Name" class="p-3 w-full rounded-8 border border-[var(--border-light)] bg-[var(--bg-card)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300"/>
+<input type="email" placeholder="Email" class="p-3 w-full rounded-8 border border-[var(--border-light)] bg-[var(--bg-card)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300"/>
+</div>
+<input type="text" placeholder="Subject" class="p-3 w-full rounded-8 border border-[var(--border-light)] bg-[var(--bg-card)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300"/>
+<textarea placeholder="Message" rows="5" class="p-3 w-full rounded-8 border border-[var(--border-light)] bg-[var(--bg-card)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-all duration-300"></textarea>
+<button class="w-full py-3 bg-[var(--primary)] text-[var(--text-primary)] font-bold rounded-8 hover:bg-[var(--primary-dark)] transition-colors duration-300 btn-large">Send Message</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- 页脚 -->
+<footer class="bg-[var(--bg-card)] text-[var(--text-primary)] py-12 px-6 border-t border-[var(--border-light)]">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:justify-between">
+<div class="mb-8 md:mb-0">
+<div class="flex items-center mb-4">
+<iconify-icon class="text-3xl mr-2 text-[var(--primary)]" icon="noto:paw-prints"></iconify-icon>
+<span class="text-xl font-bold">Pawfect Dining</span>
+</div>
+<p class="text-[var(--text-tertiary)] mb-4">
+          Connecting pet owners with the best pet-friendly dining experiences across the country.
+        </p>
+<div class="flex space-x-4">
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors duration-300" icon="mdi:facebook"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors duration-300" icon="mdi:instagram"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors duration-300" icon="mdi:twitter"></iconify-icon>
+<iconify-icon class="text-2xl text-[var(--text-tertiary)] hover:text-[var(--primary)] transition-colors duration-300" icon="mdi:youtube"></iconify-icon>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<div>
+<h4 class="font-bold mb-4 text-[var(--text-primary)]">Company</h4>
+<ul class="space-y-2 text-[var(--text-tertiary)]">
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">About Us</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Careers</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Press</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-[var(--text-primary)]">Community</h4>
+<ul class="space-y-2 text-[var(--text-tertiary)]">
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Pet Stories</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Meetups &amp; Events</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Forum Discussions</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Pet Adoption</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4 text-[var(--text-primary)]">Restaurants</h4>
+<ul class="space-y-2 text-[var(--text-tertiary)]">
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Add Your Venue</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Restaurant Guidelines</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Promotional Offers</a></li>
+<li><a class="hover:text-[var(--primary)] transition-colors duration-300" href="#">Success Stories</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-[var(--border-light)] mt-8 pt-6 text-center text-[var(--text-tertiary)]">
+        © 2025 Pawfect Dining. All rights reserved.
+      </div>
+</div>
+</footer>
+</body>
+</html>
