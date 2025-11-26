@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pawfect Dining - Recommendations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 补充 iconify 图标库 CDN（与 user_center.html 一致） -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+    <style>
+        /* 颜色规范 - 暖黄色调（同步 user_center.html 变量命名） */
+        :root {
+            --primary: #FFB347; /* 主色 */
+            --primary-light: #FFE0B2; /* 主色浅 */
+            --primary-dark: #FF9800; /* 主色深 */
+            --success-color: #8BC34A; /* 温和绿色 */
+            --warning-color: #FFA726; /* 温暖橙色 */
+            --error-color: #F44336; /* 错误红色 */
+            --info-color: #9E9E9E; /* 暖灰色 */
+            --bg-page: #FFF8F0; /* 页面背景 - 温暖的米白色 */
+            --bg-card: #FFFFFF; /* 卡片背景 */
+            --bg-secondary: #FFF3E0; /* 次要背景区域 */
+            --text-primary: #3E2723; /* 主文本 - 温暖的深棕色 */
+            --text-secondary: #5D4037; /* 次要文本 */
+            --text-description: #8D6E63; /* 说明文本 */
+            --text-disabled: #BCAAA4; /* 禁用文本 */
+            --border-normal: #D7CCC8; /* 普通边框 */
+            --border-light: #EFEBE9; /* 浅边框 */
+            --border-disabled: #BCAAA4; /* 禁用边框 */
+            --border-hover: #FFB347; /* 悬停边框 */
+            --shadow-normal: 0 2px 12px rgba(255, 179, 71, 0.12);
+            --shadow-hover: 0 4px 20px rgba(255, 179, 71, 0.16);
+        }
+        
+        /* 字体规范 */
+        body {
+            font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-page);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        h1 {
+            font-size: 28px;
+            line-height: 40px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+        }
+        
+        h2 {
+            font-size: 24px;
+            line-height: 36px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+        }
+        
+        h3 {
+            font-size: 20px;
+            line-height: 32px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+        }
+        
+        .text-large {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 400;
+        }
+        
+        .text-default {
+            font-size: 14px;
+            line-height: 22px;
+            font-weight: 400;
+        }
+        
+        .text-small {
+            font-size: 12px;
+            line-height: 18px;
+            font-weight: 400;
+        }
+        
+        /* 布局与间距 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .section {
+            padding: 48px 0;
+        }
+        
+        /* 导航栏（完全同步 user_center.html 样式） */
+        .app-header {
+            height: 64px;
+            background-color: var(--bg-card);
+            box-shadow: var(--shadow-normal);
+            transition: all 0.3s ease-in-out;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease-in-out;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 1px;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .notification-icon {
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .notification-icon:hover {
+            color: var(--primary);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 44px;
+            padding: 0 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-text {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 0 8px;
+            height: 36px;
+        }
+        
+        .btn-text:hover {
+            background-color: var(--primary-light);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: var(--shadow-normal);
+            transition: all 0.3s ease-in-out;
+            border: 1px solid var(--border-light);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+        
+        /* 推荐页头部 */
+        .recommendations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            margin-top: 20px; /* 补充间距，避免被页眉遮挡 */
+        }
+        
+        /* 搜索和筛选 */
+        .search-filter-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            height: 44px;
+            padding: 0 16px 0 44px;
+            border-radius: 8px;
+            border: 1px solid var(--border-normal);
+            background-color: var(--bg-card);
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(255, 179, 71, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-description);
+        }
+        
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        
+        /* 推荐餐厅网格 */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .restaurant-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .restaurant-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .restaurant-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .restaurant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .restaurant-name {
+            margin: 0;
+        }
+        
+        .restaurant-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: var(--primary-light);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .rating-value {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .restaurant-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-description);
+            margin-bottom: 12px;
+        }
+        
+        .restaurant-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+        
+        .restaurant-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .restaurant-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .restaurant-price {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* 页脚样式（完全同步 user_center.html） */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 48px 0 24px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 16px;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-logo-icon {
+            font-size: 24px;
+            color: #FFD700;
+        }
+        
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .footer-desc {
+            color: #aaa;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .social-link {
+            color: #aaa;
+            font-size: 20px;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .social-link:hover {
+            color: #FFD700;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+        
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-contact li {
+            color: #aaa;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-contact i {
+            color: #FFD700;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-card);
+                padding: 1rem;
+                box-shadow: var(--shadow-normal);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-secondary);
+                font-size: 24px;
+                cursor: pointer;
+            }
+            
+            .section {
+                padding: 32px 0;
+            }
+            
+            .recommendations-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            .search-filter-container {
+                flex-direction: column;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 评分星星 */
+        .rating {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .star {
+            color: var(--primary-light);
+        }
+        
+        .star.filled {
+            color: var(--primary);
+        }
+        
+        /* 分隔线 */
+        .divider {
+            height: 1px;
+            background-color: var(--border-light);
+            margin: 16px 0;
+        }
+        
+        /* 面包屑导航 */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            color: var(--text-description);
+            margin-top: 20px; /* 补充间距，避免被页眉遮挡 */
+        }
+        
+        .breadcrumb a {
+            color: var(--text-description);
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+        
+        .breadcrumb .separator {
+            color: var(--border-normal);
+        }
+        
+        /* 特色推荐区域 */
+        .featured-recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        
+        .featured-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 300px;
+        }
+        
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .featured-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 24px;
+            color: white;
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: var(--primary);
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        /* 香港区域标签 */
+        .district-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .district-tag {
+            padding: 8px 16px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-normal);
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .district-tag:hover, .district-tag.active {
+            background-color: var(--primary);
+            color: var(--text-primary);
+            border-color: var(--primary);
+        }
+        
+        /* 分页样式优化（与整体风格统一） */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 48px;
+            gap: 8px;
+        }
+        
+        .pagination-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            background-color: var(--bg-card);
+            color: var(--text-secondary);
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .pagination-btn.active {
+            background-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .pagination-btn:disabled {
+            background-color: var(--border-light);
+            color: var(--text-disabled);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏（完全同步 user_center.html 结构和样式） -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <iconify-icon class="logo-icon" icon="noto:paw-prints"></iconify-icon>
+                <span class="logo-text">Pawfect Dining</span>
+            </a>
+            <nav class="nav-links">
+                <a href="listing.html" class="nav-link">RESTAURANT</a>
+                <a href="community.html" class="nav-link">COMMUNITY</a>
+                <a href="recommendations.html" class="nav-link active">RECOMMENDATIONS</a>
+                <a href="user_center.html" class="nav-link">USER CENTER</a>
+                <a href="website_information.html" class="nav-link">INFORMATION</a>
+            </nav>
+            <div class="user-actions">
+                <iconify-icon class="notification-icon" icon="mdi:bell-outline"></iconify-icon>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://modao.cc/agent-py/workspace/690addf592eac8d377c0d880/generated_images/0079b1f0c08c435d8e4b90e3ea4bfce9.jpg" alt="User Profile">
+                    </div>
+                    <span class="user-name">PetLover88</span>
+                </div>
+            </div>
+            <!-- 移动端菜单按钮 -->
+            <button class="mobile-menu-btn" style="display: none;">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="section">
+        <div class="container">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <a href="listing.html">Restaurants</a>
+                <span class="separator">/</span>
+                <span>Recommendations</span>
+            </div>
+            
+            <!-- 页面标题 -->
+            <div class="recommendations-header">
+                <div>
+                    <h1>Hong Kong Restaurant Recommendations</h1>
+                    <p class="text-large">Curated selection of the best pet-friendly dining experiences in Hong Kong</p>
+                </div>
+                <div class="text-default">
+                    <strong>24</strong> restaurants recommended
+                </div>
+            </div>
+            
+            <!-- 香港区域筛选 -->
+            <div class="district-tags">
+                <span class="district-tag active">All Districts</span>
+                <span class="district-tag">Central & Sheung Wan</span>
+                <span class="district-tag">Wan Chai & Causeway Bay</span>
+                <span class="district-tag">Tsim Sha Tsui</span>
+                <span class="district-tag">Happy Valley</span>
+                <span class="district-tag">Sai Kung</span>
+                <span class="district-tag">Stanley</span>
+            </div>
+            
+            <!-- 搜索和筛选 -->
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search recommended restaurants...">
+                </div>
+                <button class="btn btn-secondary filter-btn">
+                    <i class="fas fa-sliders-h"></i>
+                    Filters
+                </button>
+            </div>
+            
+            <!-- 特色推荐 -->
+            <h2>Featured Recommendations</h2>
+            <div class="featured-recommendations">
+                <div class="card featured-card">
+                    <div class="featured-badge">Editor's Pick</div>
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="The Paws & Plates" class="featured-image">
+                    <div class="featured-overlay">
+                        <h3>The Paws & Plates</h3>
+                        <p class="text-default">Stanley Main Street • Perfect for weekend brunch</p>
+                    </div>
+                </div>
+                
+                <div class="card featured-card">
+                    <div class="featured-badge">Pet Paradise</div>
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Wagging Tail Cafe" class="featured-image">
+                    <div class="featured-overlay">
+                        <h3>Wagging Tail Cafe</h3>
+                        <p class="text-default">Gough Street, Central • Best for small dogs</p>
+                    </div>
+                </div>
+                
+                <div class="card featured-card">
+                    <div class="featured-badge">Waterfront Gem</div>
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pawsitive Vibes" class="featured-image">
+                    <div class="featured-overlay">
+                        <h3>Pawsitive Vibes</h3>
+                        <p class="text-default">Sai Kung Waterfront • Scenic views</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 推荐餐厅列表 -->
+            <h2 style="margin-top: 48px;">All Recommendations</h2>
+            <div class="recommendations-grid">
+                <!-- 餐厅卡片1 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="The Paws & Plates" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">The Paws & Plates</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.9</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Stanley Main Street, Stanley</span>
+                        </div>
+                        <p class="restaurant-description text-default">A seaside restaurant with a spacious outdoor patio perfect for pets. Special pet menu with healthy options and homemade treats.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">Western</span>
+                            <span class="tag">Outdoor Seating</span>
+                            <span class="tag">Seafood</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 餐厅卡片2 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Wagging Tail Cafe" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">Wagging Tail Cafe</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.8</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Gough Street, Central</span>
+                        </div>
+                        <p class="restaurant-description text-default">Trendy cafe in Central with a dedicated pet corner. Famous for their puppuccinos and organic pet snacks.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">Cafe</span>
+                            <span class="tag">Organic</span>
+                            <span class="tag">Central</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 餐厅卡片3 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Barking Good Bistro" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">Barking Good Bistro</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.7</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Star Street, Wan Chai</span>
+                        </div>
+                        <p class="restaurant-description text-default">European-style bistro with a pet-friendly terrace. Offers special doggy menus and water stations throughout.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">European</span>
+                            <span class="tag">Terrace</span>
+                            <span class="tag">Wan Chai</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 餐厅卡片4 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pawsitive Vibes" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">Pawsitive Vibes</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.7</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Sai Kung Waterfront</span>
+                        </div>
+                        <p class="restaurant-description text-default">Waterfront dining with spectacular views. Special pet menu and complimentary doggy ice cream.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">Seafood</span>
+                            <span class="tag">Waterfront</span>
+                            <span class="tag">Sai Kung</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 餐厅卡片5 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1564759298148-cee507ef6e1c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="The Furry Feast" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">The Furry Feast</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.6</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Knutsford Terrace, Tsim Sha Tsui</span>
+                        </div>
+                        <p class="restaurant-description text-default">Lively restaurant with outdoor seating perfect for people-watching with your pet. Special pet-friendly happy hour.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">International</span>
+                            <span class="tag">Bar</span>
+                            <span class="tag">TST</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 餐厅卡片6 -->
+                <div class="card restaurant-card">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Woof & Whisker" class="restaurant-image">
+                    <div class="restaurant-info">
+                        <div class="restaurant-header">
+                            <h3 class="restaurant-name">Woof & Whisker</h3>
+                            <div class="restaurant-rating">
+                                <span class="rating-value">4.9</span>
+                                <div class="rating">
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                    <span class="star filled"><i class="fas fa-star"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="restaurant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Blue Pool Road, Happy Valley</span>
+                        </div>
+                        <p class="restaurant-description text-default">Upscale dining with a beautiful garden area for pets. Special pet birthday party packages available.</p>
+                        <div class="restaurant-tags">
+                            <span class="tag">Fine Dining</span>
+                            <span class="tag">Garden</span>
+                            <span class="tag">Happy Valley</span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="restaurant-footer">
+                            <div class="restaurant-price">$$$</div>
+                            <a href="#" class="btn btn-secondary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页（优化样式，与整体风格统一） -->
+            <div class="pagination">
+                <button class="pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚（完全同步 user_center.html 结构和样式） -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <iconify-icon class="footer-logo-icon" icon="noto:paw-prints"></iconify-icon>
+                    <span class="footer-logo-text">PetFriendly</span>
+                </div>
+                <p class="footer-desc">
+                    Connecting pet lovers with pet-friendly establishments since 2025
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:facebook"></iconify-icon></a>
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:instagram"></iconify-icon></a>
+                    <a href="#" class="social-link"><iconify-icon icon="mdi:twitter"></iconify-icon></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Information</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><iconify-icon icon="mdi:information-outline" class="text-[#FFD700]"></iconify-icon> About Us</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:headphones-outline" class="text-[#FFD700]"></iconify-icon> Contact Support</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:file-document-outline" class="text-[#FFD700]"></iconify-icon> Terms of Service</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:shield-outline" class="text-[#FFD700]"></iconify-icon> Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Community</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><iconify-icon icon="mdi:book-open-outline" class="text-[#FFD700]"></iconify-icon> Pet Stories</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:calendar-outline" class="text-[#FFD700]"></iconify-icon> Meetups &amp; Events</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:comment-outline" class="text-[#FFD700]"></iconify-icon> Forum Discussions</a></li>
+                    <li><a href="#"><iconify-icon icon="mdi:heart-outline" class="text-[#FFD700]"></iconify-icon> Pet Adoption</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <ul class="footer-contact">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>support@petfriendly.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>(123) 456-7890</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Petville, CA 90210</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 PetFriendly Community. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.app-header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.style.boxShadow = 'var(--shadow-hover)';
+                } else {
+                    header.style.boxShadow = 'var(--shadow-normal)';
+                }
+            });
+
+            // 移动端菜单切换（适配响应式）
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+
+            // 区域标签切换效果
+            const districtTags = document.querySelectorAll('.district-tag');
+            districtTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    districtTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
